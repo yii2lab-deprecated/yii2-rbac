@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\rbac;
+namespace yii2lab\rbac\rbac;
 
 use yii\base\InvalidCallException;
 use yii\base\InvalidParamException;
@@ -17,7 +17,7 @@ use common\modules\user\models\User;
 class PhpManager extends YiiPhpManager
 {
 	
-	public $assignmentFile = '@yii2lab/rbac/assignments.php';
+	public $assignmentFile = '@yii2lab/rbac/rbac/assignments.php';
 	
 	private $user;
 	
