@@ -11,8 +11,6 @@ use yii\rbac\Item;
 use yii\rbac\Role;
 use yii\rbac\Permission;
 use yii\rbac\Assignment;
-use common\modules\user\models\User;
-
 
 class PhpManager extends YiiPhpManager
 {
@@ -31,9 +29,10 @@ class PhpManager extends YiiPhpManager
 	 */
 	protected function saveAssignments()
 	{
+		$userClass = $this->user;
 		$assignmentData = [];
 		foreach ($this->assignments as $userId => $assignments) {
-			$user = User::getOne($userId);
+			$user = $userClass::getOne($userId);
 			foreach ($assignments as $name => $assignment) {
 				$user->role = $assignment->roleName;
 				$user->save();
@@ -46,7 +45,8 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getUserIdsByRole($roleName)
 	{
-		$users = User::find()
+		$userClass = $this->user;
+		$users = $userClass::find()
 			->where(['role' => $roleName])
 			->all();
 		$result = [];
@@ -124,11 +124,12 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function removeItem($item)
 	{
+		$userClass = $this->user;
 		if (isset($this->items[$item->name])) {
 			foreach ($this->children as &$children) {
 				unset($children[$item->name]);
 			}
-			$users = User::findAll(['role' => $item->name]);
+			$users = $userClass::findAll(['role' => $item->name]);
 			foreach ($users as $user) {
 				$user->role = '';
 				$user->save();
@@ -142,6 +143,7 @@ class PhpManager extends YiiPhpManager
 	}
 
 	private function getUser($userId, $roleName = null) {
+		$userClass = $this->user;
 		if(Yii::$app->user->isGuest) {
 			return null;
 		}
@@ -157,7 +159,7 @@ class PhpManager extends YiiPhpManager
 		if(!empty($roleName)) {
 			$where['role'] = $roleName;
 		}
-		$user = User::find()
+		$user = $userClass::find()
 			->where($where)
 			->one();
 		return $user;
