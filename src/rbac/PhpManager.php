@@ -2,14 +2,8 @@
 
 namespace yii2lab\rbac\rbac;
 
-use yii\base\InvalidCallException;
-use yii\base\InvalidParamException;
 use Yii;
-use yii\helpers\VarDumper;
 use yii\rbac\PhpManager as YiiPhpManager;
-use yii\rbac\Item;
-use yii\rbac\Role;
-use yii\rbac\Permission;
 use yii\rbac\Assignment;
 
 class PhpManager extends YiiPhpManager
@@ -30,7 +24,6 @@ class PhpManager extends YiiPhpManager
 	protected function saveAssignments()
 	{
 		$userClass = $this->user;
-		$assignmentData = [];
 		foreach ($this->assignments as $userId => $assignments) {
 			$user = $userClass::getOne($userId);
 			foreach ($assignments as $name => $assignment) {
@@ -124,12 +117,11 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function removeItem($item)
 	{
-		$userClass = $this->user;
 		if (isset($this->items[$item->name])) {
 			foreach ($this->children as &$children) {
 				unset($children[$item->name]);
 			}
-			$users = $userClass::findAll(['role' => $item->name]);
+			$users = Yii::$app->account->login->allByRole($item->name);
 			foreach ($users as $user) {
 				$user->role = '';
 				$user->save();
