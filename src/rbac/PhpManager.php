@@ -112,6 +112,13 @@ class PhpManager extends YiiPhpManager
 		return $this->forgeAssignment($userId, $roleName);
 	}
 
+	protected function saveItems()
+	{
+		parent::saveItems();
+		Yii::$app->rbac->const->generatePermissions();
+		Yii::$app->rbac->const->generateRoles();
+	}
+
 	/**
 	 * @inheritdoc
 	 */
