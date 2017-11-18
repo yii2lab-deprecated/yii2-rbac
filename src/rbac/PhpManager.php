@@ -4,7 +4,6 @@ namespace yii2lab\rbac\rbac;
 
 use Yii;
 use yii\rbac\PhpManager as YiiPhpManager;
-use yii\rbac\Assignment;
 
 class PhpManager extends YiiPhpManager
 {
@@ -38,11 +37,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getUserIdsByRole($roleName)
 	{
-		$userClass = $this->user;
-		$users = $userClass::find()
-			->where(['role' => $roleName])
-			->all();
-		$result = [];
+		$users = Yii::$app->account->login->allByRole($roleName);
 		foreach ($users as $user) {
 			$result[] = (string)$user->id;
 		}
@@ -54,11 +49,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getAssignments($userId)
 	{
-		$user = $this->getUser($userId);
-		if(empty($user)) {
-			return [];
-		}
-		return $this->forgeAssignments($userId, $user->roles);
+		return Yii::$app->account->login->allAssignments($userId);
 	}
 
 	/**
@@ -66,12 +57,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function assign($role, $userId)
 	{
-		$user = $this->getUser($userId);
-		if($user && $role->type == 1) {
-			$user->role = $role->name;
-			$user->save();
-		}
-		return $this->forgeAssignment($userId, $role->name);
+		return Yii::$app->account->login->assignRole($userId);
 	}
 
 	/**
@@ -79,12 +65,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function revoke($role, $userId)
 	{
-		$user = $this->getUser($userId, $role->name);
-		if(empty($user)) {
-			return false;
-		}
-		$user->role = '';
-		$user->save();
+		Yii::$app->account->login->revokeRole($userId, $role);
 	}
 
 	/**
@@ -92,12 +73,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function revokeAll($userId)
 	{
-		$user = $this->getUser($userId);
-		if(empty($user)) {
-			return false;
-		}
-		$user->role = '';
-		$user->save();
+		Yii::$app->account->login->revokeAllRoles($userId);
 	}
 
 	/**
@@ -105,11 +81,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getAssignment($roleName, $userId)
 	{
-		$user = $this->getUser($userId, $roleName);
-		if(empty($user)) {
-			return null;
-		}
-		return $this->forgeAssignment($userId, $roleName);
+		return Yii::$app->account->login->isHasRole($userId, $roleName);
 	}
 
 	protected function saveItems()
@@ -130,8 +102,7 @@ class PhpManager extends YiiPhpManager
 			}
 			$users = Yii::$app->account->login->allByRole($item->name);
 			foreach ($users as $user) {
-				$user->role = '';
-				$user->save();
+				Yii::$app->account->login->revokeRole($user, $item->name);
 			}
 			unset($this->items[$item->name]);
 			$this->saveItems();
@@ -141,46 +112,4 @@ class PhpManager extends YiiPhpManager
 		}
 	}
 
-	private function getUser($userId, $roleName = null) {
-		$userClass = $this->user;
-		if(Yii::$app->user->isGuest) {
-			return null;
-		}
-		$identity = Yii::$app->user->identity;
-		if($identity->id == $userId) {
-			if(empty($roleName) || $identity->role == $roleName) {
-				return $identity;
-			}
-		}
-		if(!empty($userId)) {
-			$where['id'] = $userId;
-		}
-		if(!empty($roleName)) {
-			$where['role'] = $roleName;
-		}
-		$user = $userClass::find()
-			->where($where)
-			->one();
-		return $user;
-	}
-	
-	private function forgeAssignment($userId, $roleName) {
-		$assignment = new Assignment([
-			'userId' => $userId,
-			'roleName' => $roleName,
-			'createdAt' => 1486774821,
-		]);
-		return $assignment;
-	}
-	
-	private function forgeAssignments($userId, $roleNames) {
-		if(empty($roleNames)) {
-			return [];
-		}
-		foreach($roleNames as $roleName) {
-			$assignments[$roleName] = $this->forgeAssignment($userId, $roleName);
-		}
-		return $assignments;
-	}
-	
 }
