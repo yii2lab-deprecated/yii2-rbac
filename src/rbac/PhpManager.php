@@ -4,18 +4,12 @@ namespace yii2lab\rbac\rbac;
 
 use Yii;
 use yii\rbac\PhpManager as YiiPhpManager;
+use yii2lab\helpers\yii\ArrayHelper;
 
 class PhpManager extends YiiPhpManager
 {
 	
 	public $assignmentFile = '@yii2lab/rbac/rbac/assignments.php';
-	
-	private $user;
-	
-	public function init() {
-		parent::init();
-		$this->user = config('components.user.identityClass');
-	}
 	
 	/**
 	 * Saves assignments data into persistent storage.
@@ -38,10 +32,7 @@ class PhpManager extends YiiPhpManager
 	public function getUserIdsByRole($roleName)
 	{
 		$users = Yii::$app->account->login->allByRole($roleName);
-		foreach ($users as $user) {
-			$result[] = (string)$user->id;
-		}
-		return $result;
+		return ArrayHelper::getColumn($users, 'id');
 	}
 	
 	/**
