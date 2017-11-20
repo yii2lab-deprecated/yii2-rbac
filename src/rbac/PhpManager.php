@@ -48,7 +48,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function assign($role, $userId)
 	{
-		return Yii::$app->account->login->assignRole($userId);
+		return Yii::$app->account->login->assignRole($userId, $role);
 	}
 
 	/**
