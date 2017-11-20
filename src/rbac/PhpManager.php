@@ -91,10 +91,7 @@ class PhpManager extends YiiPhpManager
 			foreach ($this->children as &$children) {
 				unset($children[$item->name]);
 			}
-			$users = Yii::$app->account->login->allByRole($item->name);
-			foreach ($users as $user) {
-				Yii::$app->account->login->revokeRole($user, $item->name);
-			}
+			$this->removeItemRevoke($item->name);
 			unset($this->items[$item->name]);
 			$this->saveItems();
 			return true;
@@ -103,4 +100,14 @@ class PhpManager extends YiiPhpManager
 		}
 	}
 
+	private function removeItemRevoke($role) {
+		$users = Yii::$app->account->login->allByRole($role);
+		if(empty($users)) {
+			return;
+		}
+		foreach ($users as $user) {
+			Yii::$app->account->login->revokeRole($user, $role);
+		}
+	}
+	
 }
