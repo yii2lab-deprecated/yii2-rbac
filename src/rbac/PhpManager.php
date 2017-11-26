@@ -4,6 +4,7 @@ namespace yii2lab\rbac\rbac;
 
 use Yii;
 use yii\rbac\PhpManager as YiiPhpManager;
+use yii\web\NotFoundHttpException;
 
 class PhpManager extends YiiPhpManager
 {
@@ -23,7 +24,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getUserIdsByRole($roleName)
 	{
-		return Yii::$app->account->login->allUserIdsByRole($roleName);
+		return Yii::$app->account->assignment->allUserIdsByRole($roleName);
 	}
 	
 	/**
@@ -63,7 +64,11 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getAssignment($roleName, $userId)
 	{
-		return Yii::$app->account->login->isHasRole($userId, $roleName);
+		try {
+			return Yii::$app->account->assignment->allAssignments($userId, $roleName);
+		} catch(NotFoundHttpException $e) {
+			return false;
+		}
 	}
 
 	protected function saveItems()
@@ -92,7 +97,7 @@ class PhpManager extends YiiPhpManager
 	}
 
 	private function removeItemRevoke($role) {
-		$ids = Yii::$app->account->login->allUserIdsByRole($role);
+		$ids = Yii::$app->account->assignment->allUserIdsByRole($role);
 		if(empty($ids)) {
 			return;
 		}
