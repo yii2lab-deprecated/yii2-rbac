@@ -4,6 +4,8 @@ RBAC
 ## Документация
 
 * [Введение](intro.md)
+* [Установка](Install.md)
 * [Разрешения](permission.md)
 * [Роли](role.md)
 * [Константы](const.md)
+* [Консольные команды](console.md)
