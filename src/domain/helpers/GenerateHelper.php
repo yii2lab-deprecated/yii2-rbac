@@ -2,6 +2,7 @@
 
 namespace yii2lab\rbac\domain\helpers;
 
+use yii\helpers\ArrayHelper;
 use yii2lab\helpers\ClassGeneratorHelper;
 
 class GenerateHelper
@@ -14,10 +15,11 @@ class GenerateHelper
 	public static function getConstListFromCollection($collection, $removePrefix = false) {
 		$constList = [];
 		foreach($collection as $data) {
+			$description = property_exists($data, 'description') ? $data->description : '';
 			$constList[] = [
 				'name' => self::getConstName($data->name, $removePrefix),
 				'value' => $data->name,
-				'description' => $data->description,
+				'description' => $description,
 			];
 		}
 		return $constList;
