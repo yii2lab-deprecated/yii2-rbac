@@ -10,5 +10,5 @@
 Например
 
 ```
-	oArticleDelete
+oArticleDelete
 ```

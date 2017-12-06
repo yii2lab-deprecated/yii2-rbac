@@ -12,5 +12,5 @@
 Например
 
 ```
-	rAdministrator
+rAdministrator
 ```
