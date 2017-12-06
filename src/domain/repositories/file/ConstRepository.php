@@ -12,14 +12,14 @@ class ConstRepository extends BaseRepository {
 
 	public function generatePermissions($collection)
 	{
-		$constList = GenerateHelper::getConstListFromCollection($collection, 'O');
+		$constList = GenerateHelper::getConstListFromCollection($collection, GenerateHelper::PREFIX_PERMISSION);
 		EnumGeneratorHelper::generateClass($this->dirAlias . SL . GenerateHelper::TYPE_PERMISSION, $constList);
 		return $constList;
 	}
 
 	public function generateRoles($collection)
 	{
-		$constList = GenerateHelper::getConstListFromCollection($collection, 'R');
+		$constList = GenerateHelper::getConstListFromCollection($collection, GenerateHelper::PREFIX_ROLE);
 		EnumGeneratorHelper::generateClass($this->dirAlias . SL . GenerateHelper::TYPE_ROLE, $constList);
 		return $constList;
 	}

@@ -11,6 +11,9 @@ class GenerateHelper
 	const TYPE_ROLE = 'RoleEnum';
 	const TYPE_RULE = 'RuleEnum';
 	
+	const PREFIX_PERMISSION = 'O';
+	const PREFIX_ROLE = 'R';
+	
 	public static function getConstListFromCollection($collection, $removePrefix = false) {
 		$constList = [];
 		foreach($collection as $data) {
