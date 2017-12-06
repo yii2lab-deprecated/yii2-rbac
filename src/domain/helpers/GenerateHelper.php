@@ -2,8 +2,7 @@
 
 namespace yii2lab\rbac\domain\helpers;
 
-use yii\helpers\ArrayHelper;
-use yii2lab\helpers\ClassGeneratorHelper;
+use yii2lab\helpers\generator\ClassGeneratorHelper;
 
 class GenerateHelper
 {

@@ -3,7 +3,7 @@
 namespace yii2lab\rbac\domain\repositories\file;
 
 use yii2lab\domain\repositories\BaseRepository;
-use yii2lab\helpers\EnumGeneratorHelper;
+use yii2lab\helpers\generator\EnumGeneratorHelper;
 use yii2lab\rbac\domain\helpers\GenerateHelper;
 
 class ConstRepository extends BaseRepository {
