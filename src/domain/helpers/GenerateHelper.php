@@ -3,6 +3,7 @@
 namespace yii2lab\rbac\domain\helpers;
 
 use yii2lab\helpers\generator\ClassGeneratorHelper;
+use yii2lab\helpers\generator\EnumGeneratorHelper;
 
 class GenerateHelper
 {
@@ -13,6 +14,12 @@ class GenerateHelper
 	
 	const PREFIX_PERMISSION = 'O';
 	const PREFIX_ROLE = 'R';
+	
+	private static $doc = [
+		'Этот класс был сгенерирован автоматически.',
+		'Не вносите в данный файл изменения, они затрутся при очередной генерации.',
+		'Изменить набор констант можно через управление RBAC в админке.',
+	];
 	
 	public static function getConstListFromCollection($collection, $removePrefix = false) {
 		$constList = [];
@@ -25,6 +32,14 @@ class GenerateHelper
 			];
 		}
 		return $constList;
+	}
+	
+	public static function generateEnum($className, $constList) {
+		EnumGeneratorHelper::generateClass([
+			'className' => $className,
+			'const' => $constList,
+			'doc' => self::$doc,
+		]);
 	}
 	
 	private static function deletePrefix($name, $prefix = false) {
