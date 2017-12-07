@@ -74,8 +74,7 @@ class PhpManager extends YiiPhpManager
 	protected function saveItems()
 	{
 		parent::saveItems();
-		Yii::$app->rbac->const->generatePermissions();
-		Yii::$app->rbac->const->generateRoles();
+		Yii::$app->rbac->const->generateAll();
 	}
 
 	/**
