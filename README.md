@@ -1,3 +1,6 @@
+[![Latest Stable Version](https://poser.pugx.org/yii2lab/yii2-rbac/v/stable.png)](https://packagist.org/packages/yii2lab/yii2-rbac)
+[![Total Downloads](https://poser.pugx.org/yii2lab/yii2-rbac/downloads.png)](https://packagist.org/packages/yii2lab/yii2-rbac)
+
 ## Описание
 
 Модуль для управления ролями пользователей RBAC.
