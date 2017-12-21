@@ -35,7 +35,7 @@ class GenerateHelper
 	}
 	
 	public static function generateEnum($className, $constList) {
-		EnumGeneratorHelper::generateClass([
+		EnumGeneratorHelper::generate([
 			'className' => $className,
 			'const' => $constList,
 			'doc' => self::$doc,
