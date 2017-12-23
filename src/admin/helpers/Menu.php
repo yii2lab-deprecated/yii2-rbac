@@ -4,11 +4,15 @@ namespace yii2lab\rbac\admin\helpers;
 
 // todo: отрефакторить - сделать нормальный интерфейс и родителя
 
+use common\enums\rbac\PermissionEnum;
+
 class Menu {
 	
 	static function getMenu() {
 		return [
-			'label' => t('admin', 'rbac'),
+			'label' => ['admin', 'rbac'],
+			'module' => 'rbac',
+			'access' => PermissionEnum::RBAC_MANAGE,
 			'icon' => 'users',
 			'items' => [
 				[
