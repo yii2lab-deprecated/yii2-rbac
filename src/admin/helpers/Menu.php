@@ -13,7 +13,7 @@ class Menu {
 			'label' => ['admin', 'rbac'],
 			'module' => 'rbac',
 			'access' => PermissionEnum::RBAC_MANAGE,
-			'icon' => 'users',
+			'icon' => 'user-o',
 			'items' => [
 				[
 					'label' => ['admin', 'rbac_permission'],
