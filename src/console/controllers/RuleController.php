@@ -10,6 +10,9 @@ use yii2lab\console\helpers\Output;
 class RuleController extends Controller
 {
 	
+	/**
+	 * Search and add RBAC rules
+	 */
 	public function actionAdd()
 	{
 		Question::confirm(null, 1);

@@ -10,6 +10,9 @@ use yii2lab\console\helpers\Output;
 class ConstController extends Controller
 {
 	
+	/**
+	 * Generating enums for RBAC roles, permissions and rules
+	 */
 	public function actionGenerate()
 	{
 		Question::confirm(null, 1);
