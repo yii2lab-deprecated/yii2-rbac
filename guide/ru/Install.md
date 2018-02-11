@@ -13,7 +13,7 @@ composer require yii2module/yii2-rbac
 return [
 	'modules' => [
 		// ...
-		'fixtures' => 'yii2lab\rbac\console\Module',
+		'rbac' => 'yii2lab\rbac\console\Module',
 		// ...
 	],
 ];
@@ -25,18 +25,7 @@ return [
 return [
 	'components' => [
 		// ...
-		'rbac' => [
-			'class' => 'yii2lab\domain\Domain',
-			'path' => 'yii2lab\rbac\domain',
-			'repositories' => [
-				'rule' => Driver::FILE,
-				'const' => Driver::FILE,
-			],
-			'services' => [
-				'rule',
-				'const',
-			],
-		],
+		'rbac' => 'yii2lab\rbac\domain\Domain',
 		// ...
 	],
 ];
