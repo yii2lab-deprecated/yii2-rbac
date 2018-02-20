@@ -4,7 +4,7 @@ namespace yii2lab\rbac\admin\controllers;
 
 use mdm\admin\models\Assignment;
 use Yii;
-use yii2module\account\domain\entities\LoginEntity;
+use yii2module\account\domain\v1\entities\LoginEntity;
 
 class AssignmentController extends \mdm\admin\controllers\AssignmentController {
 	
