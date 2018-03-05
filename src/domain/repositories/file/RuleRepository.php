@@ -70,7 +70,7 @@ class RuleRepository extends BaseRepository {
 	{
 		$existsRules = Yii::$app->authManager->getRules();
 		foreach ($existsRules as $rule) {
-			if (is_object($rule) && $rule->className() == $class) {
+			if (is_object($rule) && get_class($rule) == $class) {
 				return true;
 			}
 		}

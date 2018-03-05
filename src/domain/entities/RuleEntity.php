@@ -13,7 +13,7 @@ class RuleEntity extends BaseEntity {
 		if(!empty($this->name)) {
 			return $this->name;
 		}
-		return basename($this->className());
+		return basename(get_class($this));
 	}
 
 }
