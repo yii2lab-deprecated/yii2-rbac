@@ -24,7 +24,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getUserIdsByRole($roleName)
 	{
-		return Yii::$app->account->assignment->allUserIdsByRole($roleName);
+		return Yii::$domain->account->assignment->allUserIdsByRole($roleName);
 	}
 	
 	/**
@@ -32,7 +32,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function getAssignments($userId)
 	{
-		return Yii::$app->account->assignment->allAssignments($userId);
+		return Yii::$domain->account->assignment->allAssignments($userId);
 	}
 
 	/**
@@ -40,7 +40,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function assign($role, $userId)
 	{
-		return Yii::$app->account->assignment->assignRole($userId, $role);
+		return Yii::$domain->account->assignment->assignRole($userId, $role);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function revoke($role, $userId)
 	{
-		Yii::$app->account->assignment->revokeRole($userId, $role);
+		Yii::$domain->account->assignment->revokeRole($userId, $role);
 	}
 
 	/**
@@ -56,7 +56,7 @@ class PhpManager extends YiiPhpManager
 	 */
 	public function revokeAll($userId)
 	{
-		Yii::$app->account->assignment->revokeAllRoles($userId);
+		Yii::$domain->account->assignment->revokeAllRoles($userId);
 	}
 
 	/**
@@ -65,7 +65,7 @@ class PhpManager extends YiiPhpManager
 	public function getAssignment($roleName, $userId)
 	{
 		try {
-			return Yii::$app->account->assignment->allAssignments($userId, $roleName);
+			return Yii::$domain->account->assignment->allAssignments($userId, $roleName);
 		} catch(NotFoundHttpException $e) {
 			return false;
 		}
@@ -74,7 +74,7 @@ class PhpManager extends YiiPhpManager
 	protected function saveItems()
 	{
 		parent::saveItems();
-		Yii::$app->rbac->const->generateAll();
+		Yii::$domain->rbac->const->generateAll();
 	}
 
 	/**
@@ -96,12 +96,12 @@ class PhpManager extends YiiPhpManager
 	}
 
 	private function removeItemRevoke($role) {
-		$ids = Yii::$app->account->assignment->allUserIdsByRole($role);
+		$ids = Yii::$domain->account->assignment->allUserIdsByRole($role);
 		if(empty($ids)) {
 			return;
 		}
 		foreach ($ids as $id) {
-			Yii::$app->account->assignment->revokeRole($id, $role);
+			Yii::$domain->account->assignment->revokeRole($id, $role);
 		}
 	}
 	

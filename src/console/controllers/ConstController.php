@@ -16,7 +16,7 @@ class ConstController extends Controller
 	public function actionGenerate()
 	{
 		Question::confirm(null, 1);
-		$count = Yii::$app->rbac->const->generateAll();
+		$count = Yii::$domain->rbac->const->generateAll();
 		if($count) {
 			Output::block("Generated {$count} constants");
 		} else {
