@@ -15,7 +15,7 @@ class AssignmentRepository extends BaseRepository {
 		if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $userId) {
 			$roles = Yii::$app->user->identity->roles;
 		} else {
-			$userEntity = $this->domain->repositories->login->oneById($userId);
+			$userEntity = Yii::$domain->account->login->oneById($userId);
 			$roles = $userEntity->roles;
 		}
 		return $this->forgeAssignments($userId, $roles);

@@ -4,14 +4,13 @@ namespace yii2lab\rbac\domain\services;
 
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\rbac\domain\interfaces\services\AssignmentInterface;
-use yii2lab\rbac\domain\repositories\tps\AssignmentRepository;
 
 /**
  * Class AssignmentService
  *
  * @package yii2lab\rbac\domain\services
  *
- * @property AssignmentRepository $repository
+ * @property \yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface $repository
  */
 class AssignmentService extends BaseActiveService implements AssignmentInterface {
 
@@ -19,7 +18,7 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 		return $this->repository->allByUserId($userId);
 	}
 	
-	public function roleNamesByUserId(int $userId) {
+	public function allRoleNamesByUserId(int $userId) {
 		return $this->repository->allRoleNamesByUserId($userId);
 	}
 	

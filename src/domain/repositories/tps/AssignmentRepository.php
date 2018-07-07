@@ -2,20 +2,22 @@
 
 namespace yii2lab\rbac\domain\repositories\tps;
 
+use Yii;
 use yii\web\NotFoundHttpException;
 use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
 use yii2module\account\domain\v2\helpers\AssignmentHelper;
 use yii2woop\common\domain\account\v1\helpers\UserHelper;
 use yii2woop\common\repositories\base\BaseTpsRepository;
+use yii2woop\generated\transport\TpsCommands;
 
 class AssignmentRepository extends BaseTpsRepository implements AssignmentInterface {
 	
 	public function revokeOneRole($userId, $role) {
-		// TODO: Implement revokeOneRole() method.
+		prr('// TODO: Implement revokeOneRole() method.',1,1);
 	}
 	
 	public function revokeAllRoles($userId) {
-		// TODO: Implement revokeAllRoles() method.
+		prr('// TODO: Implement revokeAllRoles() method.',1,1);
 	}
 	
 	public function oneAssign($userId, $itemName) {
@@ -34,11 +36,13 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 	}
 	
 	public function assignRole($userId, $role) {
-		// TODO: Implement assignRole() method.
+		$loginEntity = Yii::$domain->account->login->oneById($userId);
+		$request = TpsCommands::assignSubjectRoles($loginEntity->login, [$role]);
+		$result = $this->send($request);
 	}
 	
 	public function revokeRole($userId, $role) {
-		// TODO: Implement revokeRole() method.
+		prr('// TODO: Implement revokeRole() method.',1,1);
 	}
 	
 	public function isHasRole($userId, $role) {
@@ -51,14 +55,14 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 	}
 	
 	public function allUserIdsByRole($role) {
-		// TODO: Implement allUserIdsByRole() method.
+		prr('// TODO: Implement allUserIdsByRole() method.',1,1);
 	}
 	
 	public function allByRole($role) {
-		// TODO: Implement allByRole() method.
+		prr('// TODO: Implement allByRole() method.',1,1);
 	}
 	
 	public function allByUserId($userId) {
-		// TODO: Implement allByUserId() method.
+		prr('// TODO: Implement allByUserId() method.',1,1);
 	}
 }

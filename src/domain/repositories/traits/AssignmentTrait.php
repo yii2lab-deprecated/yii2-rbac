@@ -2,6 +2,7 @@
 
 namespace yii2lab\rbac\domain\repositories\traits;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Assignment;
 use yii\web\NotFoundHttpException;
@@ -60,7 +61,7 @@ trait AssignmentTrait {
 	public function assignRole($userId, $role) {
 		
 		$userId = $this->getId($userId);
-		$entity = $this->domain->repositories->login->oneById($userId);
+		$entity = Yii::$domain->account->login->oneById($userId);
 		$assignEntity = $this->forgeEntity([
 			'user_id' => $userId,
 			'item_name' => $role,
@@ -71,7 +72,7 @@ trait AssignmentTrait {
 	
 	public function revokeRole($userId, $role) {
 		$userId = $this->getId($userId);
-		$entity = $this->domain->repositories->login->oneById($userId);
+		$entity = Yii::$domain->account->login->oneById($userId);
 		$this->revokeOneRole($userId, $role);
 	}
 	

@@ -9,6 +9,22 @@ use yii2module\account\domain\v2\entities\LoginEntity;
 class AssignmentController extends \mdm\admin\controllers\AssignmentController {
 	
 	/**
+	 * Lists all Assignment models.
+	 * @return mixed
+	 */
+	public function actionIndex()
+	{
+		$dataProvider = Yii::$domain->account->login->getDataProvider();
+		return $this->render('index', [
+			'dataProvider' => $dataProvider,
+			//'searchModel' => $searchModel,
+			'idField' => 'id',
+			'usernameField' => $this->usernameField,
+			'extraColumns' => $this->extraColumns,
+		]);
+	}
+	
+	/**
 	 * Displays a single Assignment model.
 	 * @param  integer $id
 	 * @return mixed
