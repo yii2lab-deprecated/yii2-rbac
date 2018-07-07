@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2lab\rbac\domain\rbac;
+namespace yii2lab\rbac\domain\rbac\custom;
 
 use Yii;
 use yii\rbac\PhpManager as YiiPhpManager;

@@ -11,18 +11,24 @@ use yii2lab\domain\enums\Driver;
  *
  * @property \yii2lab\rbac\domain\services\RuleService $rule
  * @property \yii2lab\rbac\domain\services\ConstService $const
+ * @property \yii2lab\rbac\domain\services\AssignmentService $assignment
+ * @property \yii2lab\rbac\domain\services\ManagerService $manager
  */
 class Domain extends \yii2lab\domain\Domain {
 	
 	public function config() {
 		return [
-			'repositories' => [ 
+			'repositories' => [
 				'rule' => Driver::FILE, 
-				'const' => Driver::FILE, 
+				'const' => Driver::FILE,
+				'assignment' => Driver::primary(),
+				'manager' => Driver::MEMORY,
 			], 
 			'services' => [ 
 				'rule', 
-				'const', 
+				'const',
+				'assignment',
+				'manager',
 			], 
 		];
 	}
