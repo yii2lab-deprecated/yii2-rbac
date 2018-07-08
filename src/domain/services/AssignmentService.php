@@ -4,6 +4,7 @@ namespace yii2lab\rbac\domain\services;
 
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\rbac\domain\interfaces\services\AssignmentInterface;
+use yii2lab\rbac\domain\repositories\disc\AssignmentRepository;
 
 /**
  * Class AssignmentService
@@ -11,9 +12,14 @@ use yii2lab\rbac\domain\interfaces\services\AssignmentInterface;
  * @package yii2lab\rbac\domain\services
  *
  * @property \yii2lab\rbac\domain\Domain $domain
- * @property \yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface $repository
+ * @property AssignmentRepository $repository
  */
 class AssignmentService extends BaseActiveService implements AssignmentInterface {
+	
+	/**
+	 * @var array
+	 */
+	protected $assignments = []; // userId, itemName => assignment
 	
 	public function allByUserId(int $userId) {
 		return $this->repository->allByUserId($userId);
@@ -51,9 +57,16 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 		return $this->repository->allUserIdsByRole($roleName);
 	}
 	
-	public function removeAllAssignments()
+	public function updateItem($name, $item) {
+		return $this->repository->updateItem($name, $item);
+	}
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function removeItem($item)
 	{
-		return $this->repository->removeAllAssignments();
+		//return $this->repository->removeItem($item);
 	}
 }
 

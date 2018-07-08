@@ -4,6 +4,8 @@ namespace yii2lab\rbac\domain\rbac;
 
 use Yii;
 use yii\base\Component;
+use yii\base\InvalidArgumentException;
+use yii\rbac\Item;
 use yii\rbac\ManagerInterface;
 use yii\rbac\Permission;
 use yii\rbac\Role;
@@ -251,7 +253,7 @@ class PhpManager extends Component implements ManagerInterface
 		Yii::$domain->rbac->item->removeAllPermissions();
 		Yii::$domain->rbac->item->removeAllRoles();
 		Yii::$domain->rbac->rule->removeAllRules();
-		Yii::$domain->rbac->assignment->removeAllAssignments();
+		Yii::$domain->rbac->assignment->removeAll();
 	}
 	
 	/**
@@ -328,9 +330,26 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return bool whether the role, permission or rule is successfully added to the system
 	 * @throws \Exception if data validation or saving fails (such as the name of the role or permission is not unique)
 	 */
-	public function add($object) {
-		return Yii::$domain->rbac->item->add($object);
+	public function add($object)
+	{
+		if ($object instanceof Item) {
+			if ($object->ruleName && $this->getRule($object->ruleName) === null) {
+				$rule = \Yii::createObject($object->ruleName);
+				$rule->name = $object->ruleName;
+				Yii::$domain->rbac->rule->addRule($rule);
+			}
+			
+			return Yii::$domain->rbac->item->addItem($object);
+		} elseif ($object instanceof Rule) {
+			return Yii::$domain->rbac->rule->addRule($object);
+		}
+		
+		throw new InvalidArgumentException('Adding unsupported object type.');
 	}
+	/*public function add($object) {
+		return Yii::$domain->rbac->item->add($object);
+	}*/
+	
 	
 	/**
 	 * Removes a role, permission or rule from the RBAC system.
@@ -339,9 +358,20 @@ class PhpManager extends Component implements ManagerInterface
 	 *
 	 * @return bool whether the role, permission or rule is successfully removed
 	 */
-	public function remove($object) {
-		return Yii::$domain->rbac->item->remove($object);
+	public function remove($object)
+	{
+		if ($object instanceof Item) {
+			Yii::$domain->rbac->assignment->removeItem($object);
+			return Yii::$domain->rbac->item->removeItem($object);
+		} elseif ($object instanceof Rule) {
+			return Yii::$domain->rbac->rule->removeRule($object);
+		}
+		
+		throw new InvalidArgumentException('Removing unsupported object type.');
 	}
+	/*public function remove($object) {
+		return Yii::$domain->rbac->item->remove($object);
+	}*/
 	
 	/**
 	 * Updates the specified role, permission or rule in the system.
@@ -352,9 +382,26 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return bool whether the update is successful
 	 * @throws \Exception if data validation or saving fails (such as the name of the role or permission is not unique)
 	 */
-	public function update($name, $object) {
-		return Yii::$domain->rbac->item->update($name, $object);
+	public function update($name, $object)
+	{
+		if ($object instanceof Item) {
+			if ($object->ruleName && $this->getRule($object->ruleName) === null) {
+				$rule = \Yii::createObject($object->ruleName);
+				$rule->name = $object->ruleName;
+				Yii::$domain->rbac->rule->addRule($rule);
+			}
+			$updateItem = Yii::$domain->rbac->item->updateItem($name, $object);
+			Yii::$domain->rbac->assignment->updateItem($name, $object);
+			return $updateItem;
+		} elseif ($object instanceof Rule) {
+			return $this->updateRule($name, $object);
+		}
+		
+		throw new InvalidArgumentException('Updating unsupported object type.');
 	}
+	/*public function update($name, $object) {
+		return Yii::$domain->rbac->item->update($name, $object);
+	}*/
 	
 	/**
 	 * Returns the named role.

@@ -2,7 +2,6 @@
 
 namespace yii2lab\rbac\domain\services;
 
-use Yii;
 use yii\rbac\Permission;
 use yii\rbac\Role;
 use yii\rbac\Rule;
@@ -18,18 +17,7 @@ use yii2lab\rbac\domain\repositories\disc\ItemRepository;
  * @property ItemRepository $repository
  */
 class ItemService extends BaseService {
-	/*
-	public function init()
-	{
-		parent::init();
-		$this->repository = Yii::createObject([
-			'class' => ItemRepository::class,
-			'itemFile' => '@common/data/rbac/items.php',
-			'ruleFile' => '@common/data/rbac/rules.php',
-			'defaultRoles' => ['rGuest'],
-		]);
-	}
-	*/
+	
 	public function getAllChildren()
 	{
 		return $this->repository->getAllChildren();
@@ -43,6 +31,14 @@ class ItemService extends BaseService {
 	public function getItems($type)
 	{
 		return $this->repository->getItems($type);
+	}
+	
+	public function addItem($item) {
+		return $this->repository->addItem($item);
+	}
+	
+	public function updateItem($name, $item) {
+		return $this->repository->updateItem($name, $item);
 	}
 	
 	/**

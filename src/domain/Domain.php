@@ -24,9 +24,9 @@ class Domain extends \yii2lab\domain\Domain {
 			'repositories' => [
 				'rule' => [
 					'class' => RuleRepository::class,
-					'itemFile' => '@common/data/rbac/items.php',
+					//'itemFile' => '@common/data/rbac/items.php',
 					'ruleFile' => '@common/data/rbac/rules.php',
-					'defaultRoles' => ['rGuest'],
+					//'defaultRoles' => ['rGuest'],
 				],
 				'const' => Driver::FILE,
 				'assignment' => Driver::primary(),
@@ -34,7 +34,7 @@ class Domain extends \yii2lab\domain\Domain {
 				'item' => [
 					'class' => ItemRepository::class,
 					'itemFile' => '@common/data/rbac/items.php',
-					'ruleFile' => '@common/data/rbac/rules.php',
+					//'ruleFile' => '@common/data/rbac/rules.php',
 					'defaultRoles' => ['rGuest'],
 				],
 				'misc' => Driver::DISC,

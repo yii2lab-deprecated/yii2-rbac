@@ -3,7 +3,6 @@
 namespace yii2lab\rbac\domain\services;
 
 use common\enums\app\AppEnum;
-use Yii;
 use yii2lab\domain\services\base\BaseService;
 use yii2lab\rbac\domain\repositories\disc\RuleRepository;
 
@@ -16,18 +15,7 @@ use yii2lab\rbac\domain\repositories\disc\RuleRepository;
  * @property RuleRepository $repository
  */
 class RuleService extends BaseService {
-	/*
-	public function init()
-	{
-		parent::init();
-		$this->repository = Yii::createObject([
-			'class' => RuleRepository::class,
-			'itemFile' => '@common/data/rbac/items.php',
-			'ruleFile' => '@common/data/rbac/rules.php',
-			'defaultRoles' => ['rGuest'],
-		]);
-	}
-	*/
+	
 	public function updateRule($name, $rule)
 	{
 		return $this->repository->updateRule($name, $rule);
@@ -58,15 +46,20 @@ class RuleService extends BaseService {
 		return $this->repository->removeAllRules();
 	}
 	
+	public function addRule($rule) {
+		return $this->repository->addRule($rule);
+	}
 	
-	
+	public function removeRule($rule) {
+		return $this->repository->removeRule($rule);
+	}
 	
 	
 	
 	
 	// =================== old code ==========================
 	
-	public function searchInAllApps()
+	/*public function searchInAllApps()
 	{
 		$appList = AppEnum::values();
 		$collection = $this->repository->searchByAppList($appList);
@@ -76,6 +69,6 @@ class RuleService extends BaseService {
 	public function insertBatch($collection)
 	{
 		return $this->repository->insertBatch($collection);
-	}
+	}*/
 
 }
