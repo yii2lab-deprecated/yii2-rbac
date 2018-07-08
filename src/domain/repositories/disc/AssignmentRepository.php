@@ -279,7 +279,7 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 		}
 	}
 	
-	/*public function allAssignments($userId) {
+	/*public function getAssignments($userId) {
 		if(empty($userId)) {
 			return [];
 		}

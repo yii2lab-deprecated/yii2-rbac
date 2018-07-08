@@ -197,7 +197,7 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 	public function getRolesByUser($userId)
 	{
 		$roles = $this->getDefaultRoleInstances();
-		foreach (Yii::$domain->rbac->assignment->allAssignments($userId) as $name => $assignment) {
+		foreach (Yii::$domain->rbac->assignment->getAssignments($userId) as $name => $assignment) {
 			$role = $this->items[$assignment->roleName];
 			if ($role->type === Item::TYPE_ROLE) {
 				$roles[$name] = $role;
@@ -286,7 +286,7 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 	protected function getDirectPermissionsByUser($userId)
 	{
 		$permissions = [];
-		foreach (Yii::$domain->rbac->assignment->allAssignments($userId) as $name => $assignment) {
+		foreach (Yii::$domain->rbac->assignment->getAssignments($userId) as $name => $assignment) {
 			$permission = $this->items[$assignment->roleName];
 			if ($permission->type === Item::TYPE_PERMISSION) {
 				$permissions[$name] = $permission;
@@ -304,7 +304,7 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 	 */
 	protected function getInheritedPermissionsByUser($userId)
 	{
-		$assignments = Yii::$domain->rbac->assignment->allAssignments($userId);
+		$assignments = Yii::$domain->rbac->assignment->getAssignments($userId);
 		$result = [];
 		foreach (array_keys($assignments) as $roleName) {
 			$this->getChildrenRecursive($roleName, $result);
@@ -450,7 +450,7 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 			return;
 		}
 		foreach ($ids as $id) {
-			Yii::$domain->rbac->assignment->revokeRole($id, $role);
+			Yii::$domain->rbac->assignment->revoke($role, $id);
 		}
 	}
 	

@@ -10,62 +10,9 @@ use yii\rbac\ManagerInterface;
 use yii\rbac\Permission;
 use yii\rbac\Role;
 use yii\rbac\Rule;
-use yii2lab\rbac\domain\services\AssignmentService;
-use yii2lab\rbac\domain\services\ItemService;
-use yii2lab\rbac\domain\services\ManagerService;
-use yii2lab\rbac\domain\services\RuleService;
 
 class PhpManager extends Component implements ManagerInterface
 {
-	
-	public $itemFile;
-	public $ruleFile;
-	public $defaultRoles;
-	
-	/**
-	 * @var \yii2lab\rbac\domain\rbac\custom\PhpManager
-	 */
-	protected $instance;
-	
-	/**
-	 * @var AssignmentService
-	 */
-	protected $assignmentService;
-	
-	/**
-	 * @var ItemService
-	 */
-	protected $itemService;
-	
-	/**
-	 * @var ManagerService
-	 */
-	protected $managerService;
-	
-	/**
-	 * @var RuleService
-	 */
-	protected $ruleService;
-	
-	/**
-	 * Initializes the application component.
-	 * This method overrides parent implementation by loading the authorization data
-	 * from PHP script.
-	 */
-	public function init()
-	{
-		parent::init();
-		/*$this->instance = Yii::createObject([
-			'class' => 'yii2lab\rbac\domain\rbac\custom\PhpManager',
-			'itemFile' => '@common/data/rbac/items.php',
-			'ruleFile' => '@common/data/rbac/rules.php',
-			'defaultRoles' => ['rGuest'],
-		]);*/
-		//$this->assignmentService = Yii::$domain->rbac->assignment;
-		//$this->managerService = Yii::$domain->rbac->manager;
-		//$this->itemService = Yii::$domain->rbac->item;
-		//$this->ruleService = Yii::$domain->rbac->rule;
-	}
 	
 	/**
 	 * {@inheritdoc}
@@ -80,7 +27,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getAssignments($userId)
 	{
-		return Yii::$domain->rbac->assignment->allAssignments($userId);
+		return Yii::$domain->rbac->assignment->getAssignments($userId);
 	}
 	
 	/**
@@ -137,7 +84,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function revoke($role, $userId)
 	{
-		Yii::$domain->rbac->assignment->revokeRole($userId, $role);
+		Yii::$domain->rbac->assignment->revoke($role, $userId);
 	}
 	
 	/**
@@ -145,7 +92,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function revokeAll($userId)
 	{
-		Yii::$domain->rbac->assignment->revokeAllRoles($userId);
+		Yii::$domain->rbac->assignment->revokeAll($userId);
 	}
 	
 	/**

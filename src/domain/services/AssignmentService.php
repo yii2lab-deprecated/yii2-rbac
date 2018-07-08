@@ -29,8 +29,8 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 		return $this->repository->allRoleNamesByUserId($userId);
 	}
 	
-	public function allAssignments($userId) {
-		return $this->repository->allAssignments($userId);
+	public function getAssignments($userId) {
+		return $this->repository->getAssignments($userId);
 	}
 	
 	public function getAssignment($roleName, $userId) {
@@ -41,12 +41,12 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 		return $this->repository->assign($role, $userId);
 	}
 	
-	public function revokeRole($userId, $role) {
-		return $this->repository->revokeRole($userId, $role);
+	public function revoke($role, $userId) {
+		return $this->repository->revoke($role, $userId);
 	}
 	
-	public function revokeAllRoles($userId) {
-		return $this->repository->revokeAllRoles($userId);
+	public function revokeAll($userId) {
+		return $this->repository->revokeAll($userId);
 	}
 	
 	public function isHasRole($userId, $roleName) {
@@ -67,6 +67,11 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 	public function removeItem($item)
 	{
 		//return $this->repository->removeItem($item);
+	}
+	
+	public function removeAllAssignments()
+	{
+		//return $this->repository->removeAllAssignments();
 	}
 }
 

@@ -15,9 +15,9 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		// TODO: Implement revokeOneRole() method.
 	}
 	
-	public function revokeAllRoles($userId) {
+	public function revokeAll($userId) {
 		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement revokeAllRoles() method.
+		// TODO: Implement revokeAll() method.
 	}
 	
 	public function oneAssign($userId, $itemName) {
@@ -35,7 +35,7 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		// TODO: Implement allRoleNamesByUserId() method.
 	}
 	
-	public function allAssignments($userId) {
+	public function getAssignments($userId) {
 		if(empty($userId)) {
 			return [];
 		}
@@ -51,9 +51,9 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		// TODO: Implement assignRole() method.
 	}
 	
-	public function revokeRole($userId, $role) {
+	public function revoke($role, $userId) {
 		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement revokeRole() method.
+		// TODO: Implement revoke($role, $userId) method.
 	}
 	
 	public function isHasRole($userId, $role) {

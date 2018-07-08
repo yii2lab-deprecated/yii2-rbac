@@ -16,8 +16,8 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		prr('// TODO: Implement revokeOneRole() method.',1,1);
 	}
 	
-	public function revokeAllRoles($userId) {
-		prr('// TODO: Implement revokeAllRoles() method.',1,1);
+	public function revokeAll($userId) {
+		prr('// TODO: Implement revokeAll() method.',1,1);
 	}
 	
 	public function oneAssign($userId, $itemName) {
@@ -29,7 +29,7 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		return $loginEntity->roles;
 	}
 	
-	public function allAssignments($userId) {
+	public function getAssignments($userId) {
 		$loginEntity = UserHelper::oneById($userId);
 		$collection = AssignmentHelper::forge($userId, $loginEntity->roles);
 		return $collection;
@@ -41,8 +41,8 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		$result = $this->send($request);
 	}
 	
-	public function revokeRole($userId, $role) {
-		prr('// TODO: Implement revokeRole() method.',1,1);
+	public function revoke($role, $userId) {
+		prr('// TODO: Implement revoke() method.',1,1);
 	}
 	
 	public function isHasRole($userId, $role) {
@@ -65,4 +65,50 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 	public function allByUserId($userId) {
 		prr('// TODO: Implement allByUserId() method.',1,1);
 	}
-}
+	
+	/**
+	 * Revokes a role from a user.
+	 *
+	 * @param Role|Permission $role
+	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
+	public function revoke($role, $userId) {
+		// TODO: Implement revoke() method.
+	}
+	
+	/**
+	 * Revokes all roles from a user.
+	 *
+	 * @param mixed $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
+	public function revokeAll($userId) {
+		// TODO: Implement revokeAll() method.
+	}
+	
+	/**
+	 * Returns the assignment information regarding a role and a user.
+	 *
+	 * @param string     $roleName the role name
+	 * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return null|Assignment the assignment information. Null is returned if
+	 * the role is not assigned to the user.
+	 */
+	public function getAssignment($roleName, $userId) {
+		// TODO: Implement getAssignment() method.
+	}
+	
+	/**
+	 * Removes all role assignments.
+	 */
+	public function removeAllAssignments() {
+		// TODO: Implement removeAllAssignments() method.
+	}
+	
+	public function removeAll() {
+		// TODO: Implement removeAll() method.
+}}

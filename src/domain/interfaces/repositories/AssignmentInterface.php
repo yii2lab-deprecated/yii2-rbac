@@ -65,7 +65,7 @@ interface AssignmentInterface {
 	
 	/*public function revokeOneRole($userId, $role);
 	
-	public function revokeAllRoles($userId);
+	public function revokeAll($userId);
 	
 	public function oneAssign($userId, $itemName);
 	
@@ -73,11 +73,11 @@ interface AssignmentInterface {
 	
 	public function allRoleNamesByUserId($userId);
 	
-	public function allAssignments($userId);
+	public function getAssignments($userId);
 	
 	public function assign($role, $userId);
 	
-	public function revokeRole($userId, $role);
+	public function revoke($role, $userId);
 	
 	public function isHasRole($userId, $role);
 	

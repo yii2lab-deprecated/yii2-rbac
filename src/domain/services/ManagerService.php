@@ -40,7 +40,7 @@ class ManagerService extends BaseService implements ManagerInterface {
 	
 	public function checkAccess($userId, $permissionName, $params = [])
 	{
-		$assignments = Yii::$domain->rbac->assignment->allAssignments($userId);
+		$assignments = Yii::$domain->rbac->assignment->getAssignments($userId);
 		
 		if ($this->hasNoAssignments($assignments)) {
 			return false;

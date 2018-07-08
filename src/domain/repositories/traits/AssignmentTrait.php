@@ -26,28 +26,6 @@ trait AssignmentTrait {
 	
 	
 	
-	/**
-	 * Revokes a role from a user.
-	 *
-	 * @param Role|Permission $role
-	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
-	 *
-	 * @return bool whether the revoking is successful
-	 */
-	public function revoke($role, $userId) {
-		// TODO: Implement revoke() method.
-	}
-	
-	/**
-	 * Revokes all roles from a user.
-	 *
-	 * @param mixed $userId the user ID (see [[\yii\web\User::id]])
-	 *
-	 * @return bool whether the revoking is successful
-	 */
-	public function revokeAll($userId) {
-		// TODO: Implement revokeAll() method.
-	}
 	
 	/**
 	 * Returns the assignment information regarding a role and a user.
@@ -60,18 +38,6 @@ trait AssignmentTrait {
 	 */
 	public function getAssignment($roleName, $userId) {
 		// TODO: Implement getAssignment() method.
-	}
-	
-	/**
-	 * Returns all role assignment information for the specified user.
-	 *
-	 * @param string|int $userId the user ID (see [[\yii\web\User::id]])
-	 *
-	 * @return Assignment[] the assignments indexed by role names. An empty array will be
-	 * returned if there is no role assigned to the user.
-	 */
-	public function getAssignments($userId) {
-		// TODO: Implement getAssignments() method.
 	}
 	
 	/**
@@ -92,7 +58,14 @@ trait AssignmentTrait {
 		$this->model->deleteAll(['user_id' => $userId, 'item_name' => $role]);
 	}
 	
-	public function revokeAllRoles($userId) {
+	/**
+	 * Revokes all roles from a user.
+	 *
+	 * @param mixed $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
+	public function revokeAll($userId) {
 		$this->model->deleteAll(['user_id' => $userId]);
 	}
 	
@@ -118,7 +91,15 @@ trait AssignmentTrait {
 		return $roles;
 	}
 	
-	public function allAssignments($userId) {
+	/**
+	 * Returns all role assignment information for the specified user.
+	 *
+	 * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return Assignment[] the assignments indexed by role names. An empty array will be
+	 * returned if there is no role assigned to the user.
+	 */
+	public function getAssignments($userId) {
 		if(empty($userId)) {
 			return [];
 		}
@@ -147,7 +128,15 @@ trait AssignmentTrait {
 		return AssignmentHelper::forge($userId, $role);
 	}
 	
-	public function revokeRole($userId, $role) {
+	/**
+	 * Revokes a role from a user.
+	 *
+	 * @param Role|Permission $role
+	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
+	public function revoke($role, $userId) {
 		$userId = $this->getId($userId);
 		$entity = Yii::$domain->account->login->oneById($userId);
 		$this->revokeOneRole($userId, $role);
