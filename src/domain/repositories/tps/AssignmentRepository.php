@@ -5,7 +5,7 @@ namespace yii2lab\rbac\domain\repositories\tps;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
-use yii2module\account\domain\v2\helpers\AssignmentHelper;
+use yii2lab\rbac\domain\helpers\AssignmentHelper;
 use yii2woop\common\domain\account\v1\helpers\UserHelper;
 use yii2woop\common\repositories\base\BaseTpsRepository;
 use yii2woop\generated\transport\TpsCommands;

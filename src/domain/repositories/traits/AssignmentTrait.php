@@ -10,7 +10,7 @@ use yii\rbac\Permission;
 use yii\rbac\Role;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\data\Query;
-use yii2module\account\domain\v2\helpers\AssignmentHelper;
+use yii2lab\rbac\domain\helpers\AssignmentHelper;
 
 /**
  * Trait AssignmentTrait

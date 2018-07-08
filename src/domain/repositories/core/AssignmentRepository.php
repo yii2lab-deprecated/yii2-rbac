@@ -7,7 +7,7 @@ use yii\rbac\Assignment;
 use yii2lab\domain\repositories\BaseRepository;
 use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
 use yii2module\account\domain\v2\entities\LoginEntity;
-use yii2module\account\domain\v2\helpers\AssignmentHelper;
+use yii2lab\rbac\domain\helpers\AssignmentHelper;
 
 class AssignmentRepository extends BaseRepository implements AssignmentInterface {
 	
