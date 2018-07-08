@@ -14,6 +14,13 @@ use yii\base\InvalidArgumentException;
 use yii\base\InvalidCallException;
 use yii\base\InvalidValueException;
 
+/**
+ * Class ItemRepository
+ *
+ * @package yii2lab\rbac\domain\repositories\disc
+ *
+ * @property \yii2lab\rbac\domain\Domain $domain
+ */
 class ItemRepository extends BaseItemRepository implements ItemInterface {
 	
 	/**
@@ -55,12 +62,12 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function removeAll()
+	/*public function removeAll()
 	{
 		$this->children = [];
 		$this->items = [];
 		$this->save();
-	}
+	}*/
 	
 	public function getAllChildren()
 	{
@@ -251,6 +258,188 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 	}
 	
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getPermissionsByUser($userId)
+	{
+		$directPermission = $this->getDirectPermissionsByUser($userId);
+		$inheritedPermission = $this->getInheritedPermissionsByUser($userId);
+		
+		return array_merge($directPermission, $inheritedPermission);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getChildren($name)
+	{
+		return isset($this->children[$name]) ? $this->children[$name] : [];
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function removeAllPermissions()
+	{
+		return $this->removeAllItems(Item::TYPE_PERMISSION);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function removeAllRoles()
+	{
+		return $this->removeAllItems(Item::TYPE_ROLE);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function addItem($item)
+	{
+		$time = time();
+		if ($item->createdAt === null) {
+			$item->createdAt = $time;
+		}
+		if ($item->updatedAt === null) {
+			$item->updatedAt = $time;
+		}
+		
+		$this->items[$item->name] = $item;
+		
+		$this->saveItems();
+		
+		return true;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function createRole($name)
+	{
+		$role = new Role();
+		$role->name = $name;
+		return $role;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function createPermission($name)
+	{
+		$permission = new Permission();
+		$permission->name = $name;
+		return $permission;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRole($name)
+	{
+		$item = $this->getItem($name);
+		return $item instanceof Item && $item->type == Item::TYPE_ROLE ? $item : null;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPermission($name)
+	{
+		$item = $this->getItem($name);
+		return $item instanceof Item && $item->type == Item::TYPE_PERMISSION ? $item : null;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRoles()
+	{
+		return $this->getItems(Item::TYPE_ROLE);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPermissions()
+	{
+		return $this->getItems(Item::TYPE_PERMISSION);
+	}
+	
+	public function removeRuleFromItems($rule) {
+		$items = $this->domain->item->repository->getAllItems();
+		foreach ($items as $item) {
+			if ($item->ruleName === $rule->name) {
+				$item->ruleName = null;
+			}
+			$this->domain->item->repository->updateItem($item->name, $item);
+		}
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function updateItem($name, $item)
+	{
+		if ($name !== $item->name) {
+			if (isset($this->items[$item->name])) {
+				throw new InvalidArgumentException("Unable to change the item name. The name '{$item->name}' is already used by another item.");
+			}
+			
+			// Remove old item in case of renaming
+			unset($this->items[$name]);
+			
+			if (isset($this->children[$name])) {
+				$this->children[$item->name] = $this->children[$name];
+				unset($this->children[$name]);
+			}
+			foreach ($this->children as &$children) {
+				if (isset($children[$name])) {
+					$children[$item->name] = $children[$name];
+					unset($children[$name]);
+				}
+			}
+		}
+		
+		$this->items[$item->name] = $item;
+		
+		$this->saveItems();
+		return true;
+	}
+	
+	/**
+	 * Set default roles
+	 * @param string[]|\Closure $roles either array of roles or a callable returning it
+	 * @throws InvalidArgumentException when $roles is neither array nor Closure
+	 * @throws InvalidValueException when Closure return is not an array
+	 * @since 2.0.14
+	 */
+	public function setDefaultRoles($roles)
+	{
+		if (is_array($roles)) {
+			$this->defaultRoles = $roles;
+		} elseif ($roles instanceof \Closure) {
+			$roles = call_user_func($roles);
+			if (!is_array($roles)) {
+				throw new InvalidValueException('Default roles closure must return an array');
+			}
+			$this->defaultRoles = $roles;
+		} else {
+			throw new InvalidArgumentException('Default roles must be either an array or a callable');
+		}
+	}
+	
+	/**
+	 * Get default roles
+	 * @return string[] default roles
+	 * @since 2.0.14
+	 */
+	public function getDefaultRoles()
+	{
+		return $this->defaultRoles;
+	}
+	
+	/**
 	 * Recursively finds all children and grand children of the specified item.
 	 *
 	 * @param string $name the name of the item whose children are to be looked for.
@@ -264,17 +453,6 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 				$this->getChildrenRecursive($child->name, $result);
 			}
 		}
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPermissionsByUser($userId)
-	{
-		$directPermission = $this->getDirectPermissionsByUser($userId);
-		$inheritedPermission = $this->getInheritedPermissionsByUser($userId);
-		
-		return array_merge($directPermission, $inheritedPermission);
 	}
 	
 	/**
@@ -322,50 +500,6 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 		}
 		
 		return $permissions;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getChildren($name)
-	{
-		return isset($this->children[$name]) ? $this->children[$name] : [];
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function removeAllPermissions()
-	{
-		$this->removeAllItems(Item::TYPE_PERMISSION);
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function removeAllRoles()
-	{
-		$this->removeAllItems(Item::TYPE_ROLE);
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function addItem($item)
-	{
-		$time = time();
-		if ($item->createdAt === null) {
-			$item->createdAt = $time;
-		}
-		if ($item->updatedAt === null) {
-			$item->updatedAt = $time;
-		}
-		
-		$this->items[$item->name] = $item;
-		
-		$this->saveItems();
-		
-		return true;
 	}
 	
 	/**
@@ -441,7 +575,7 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 		}
 		$this->saveToFile($items, $this->itemFile);
 		
-		Yii::$domain->rbac->const->generateAll();
+		//Yii::$domain->rbac->const->generateAll();
 	}
 	
 	private function removeItemRevoke($role) {
@@ -455,89 +589,11 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 	}
 	
 	/**
-	 * {@inheritdoc}
-	 */
-	public function createRole($name)
-	{
-		$role = new Role();
-		$role->name = $name;
-		return $role;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function createPermission($name)
-	{
-		$permission = new Permission();
-		$permission->name = $name;
-		return $permission;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getRole($name)
-	{
-		$item = $this->getItem($name);
-		return $item instanceof Item && $item->type == Item::TYPE_ROLE ? $item : null;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPermission($name)
-	{
-		$item = $this->getItem($name);
-		return $item instanceof Item && $item->type == Item::TYPE_PERMISSION ? $item : null;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getRoles()
-	{
-		return $this->getItems(Item::TYPE_ROLE);
-	}
-	
-	/**
-	 * Set default roles
-	 * @param string[]|\Closure $roles either array of roles or a callable returning it
-	 * @throws InvalidArgumentException when $roles is neither array nor Closure
-	 * @throws InvalidValueException when Closure return is not an array
-	 * @since 2.0.14
-	 */
-	public function setDefaultRoles($roles)
-	{
-		if (is_array($roles)) {
-			$this->defaultRoles = $roles;
-		} elseif ($roles instanceof \Closure) {
-			$roles = call_user_func($roles);
-			if (!is_array($roles)) {
-				throw new InvalidValueException('Default roles closure must return an array');
-			}
-			$this->defaultRoles = $roles;
-		} else {
-			throw new InvalidArgumentException('Default roles must be either an array or a callable');
-		}
-	}
-	
-	/**
-	 * Get default roles
-	 * @return string[] default roles
-	 * @since 2.0.14
-	 */
-	public function getDefaultRoles()
-	{
-		return $this->defaultRoles;
-	}
-	
-	/**
 	 * Returns defaultRoles as array of Role objects.
 	 * @since 2.0.12
 	 * @return Role[] default roles. The array is indexed by the role names
 	 */
-	public function getDefaultRoleInstances()
+	private function getDefaultRoleInstances()
 	{
 		$result = [];
 		foreach ($this->defaultRoles as $roleName) {
@@ -545,14 +601,6 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 		}
 		
 		return $result;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPermissions()
-	{
-		return $this->getItems(Item::TYPE_PERMISSION);
 	}
 	
 	/**
@@ -597,13 +645,18 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 			return;
 		}
 		
-		foreach (Yii::$domain->rbac->assignment->all() as $i => $assignments) {
+		foreach ($names as $n => $hardTrue) {
+			$this->domain->assignment->revokeAllByItemName($n);
+		}
+		
+		/*foreach (Yii::$domain->rbac->assignment->all() as $i => $assignments) {
 			foreach ($assignments as $n => $assignment) {
 				if (isset($names[$assignment->roleName])) {
 					unset($this->assignments[$i][$n]);
 				}
 			}
-		}
+		}*/
+		
 		foreach ($this->children as $name => $children) {
 			if (isset($names[$name])) {
 				unset($this->children[$name]);
@@ -620,42 +673,4 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 		$this->saveItems();
 	}
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function updateItem($name, $item)
-	{
-		if ($name !== $item->name) {
-			if (isset($this->items[$item->name])) {
-				throw new InvalidArgumentException("Unable to change the item name. The name '{$item->name}' is already used by another item.");
-			}
-			
-			// Remove old item in case of renaming
-			unset($this->items[$name]);
-			
-			if (isset($this->children[$name])) {
-				$this->children[$item->name] = $this->children[$name];
-				unset($this->children[$name]);
-			}
-			foreach ($this->children as &$children) {
-				if (isset($children[$name])) {
-					$children[$item->name] = $children[$name];
-					unset($children[$name]);
-				}
-			}
-			/*foreach ($this->assignments as &$assignments) {
-				if (isset($assignments[$name])) {
-					$assignments[$item->name] = $assignments[$name];
-					$assignments[$item->name]->roleName = $item->name;
-					unset($assignments[$name]);
-				}
-			}*/
-			//$this->saveAssignments();
-		}
-		
-		$this->items[$item->name] = $item;
-		
-		$this->saveItems();
-		return true;
-	}
 }

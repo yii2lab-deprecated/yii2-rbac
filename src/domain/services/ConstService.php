@@ -3,9 +3,15 @@
 namespace yii2lab\rbac\domain\services;
 
 use Yii;
-use yii2lab\domain\data\Query;
-use yii2lab\domain\services\BaseService;
+use yii2lab\domain\services\base\BaseService;
 
+/**
+ * Class ConstService
+ *
+ * @package yii2lab\rbac\domain\services
+ *
+ * @property \yii2lab\rbac\domain\repositories\file\ConstRepository $repository
+ */
 class ConstService extends BaseService {
 
 	public function generateAll() {

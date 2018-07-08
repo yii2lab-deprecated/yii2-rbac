@@ -7,6 +7,13 @@ use yii\rbac\Rule;
 use yii2lab\rbac\domain\interfaces\repositories\RuleInterface;
 use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
 
+/**
+ * Class RuleRepository
+ *
+ * @package yii2lab\rbac\domain\repositories\disc
+ *
+ * @property \yii2lab\rbac\domain\Domain $domain
+ */
 class RuleRepository extends BaseItemRepository implements RuleInterface {
 	
 	/**
@@ -66,11 +73,6 @@ class RuleRepository extends BaseItemRepository implements RuleInterface {
 	{
 		if (isset($this->rules[$rule->name])) {
 			unset($this->rules[$rule->name]);
-			foreach ($this->items as $item) {
-				if ($item->ruleName === $rule->name) {
-					$item->ruleName = null;
-				}
-			}
 			$this->saveRules();
 			return true;
 		}
@@ -100,6 +102,18 @@ class RuleRepository extends BaseItemRepository implements RuleInterface {
 		return true;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
+	/*public function removeAll()
+	{
+		//$this->children = [];
+		//$this->items = [];
+		//$this->assignments = [];
+		$this->rules = [];
+		$this->save();
+	}*/
+	
 	protected function load()
 	{
 		$this->rules = [];
@@ -117,18 +131,6 @@ class RuleRepository extends BaseItemRepository implements RuleInterface {
 		//$this->saveItems();
 		//$this->saveAssignments();
 		$this->saveRules();
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function removeAll()
-	{
-		//$this->children = [];
-		//$this->items = [];
-		//$this->assignments = [];
-		$this->rules = [];
-		$this->save();
 	}
 	
 	/**

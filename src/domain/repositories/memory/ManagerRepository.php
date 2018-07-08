@@ -2,12 +2,7 @@
 
 namespace yii2lab\rbac\domain\repositories\memory;
 
-use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
-use yii\rbac\Assignment;
-use yii\rbac\Item;
-use yii\rbac\Role;
-use yii\rbac\Rule;
 use yii2lab\domain\repositories\BaseRepository;
 use Yii;
 use yii2lab\rbac\domain\interfaces\repositories\ManagerInterface;

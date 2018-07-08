@@ -3,6 +3,7 @@
 namespace yii2lab\rbac\domain\repositories\core;
 
 use Yii;
+use yii\rbac\Assignment;
 use yii2lab\domain\repositories\BaseRepository;
 use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
 use yii2module\account\domain\v2\entities\LoginEntity;
@@ -10,24 +11,14 @@ use yii2module\account\domain\v2\helpers\AssignmentHelper;
 
 class AssignmentRepository extends BaseRepository implements AssignmentInterface {
 	
-	public function revokeOneRole($userId, $role) {
+	public function revoke($role, $userId) {
 		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement revokeOneRole() method.
+		// TODO: Implement revoke($role, $userId) method.
 	}
 	
 	public function revokeAll($userId) {
 		exit('Not Implement of ' . __METHOD__);
 		// TODO: Implement revokeAll() method.
-	}
-	
-	public function oneAssign($userId, $itemName) {
-		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement oneAssign() method.
-	}
-	
-	public function allByUserId($userId) {
-		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement allByUserId() method.
 	}
 	
 	public function allRoleNamesByUserId($userId) {
@@ -51,11 +42,6 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		// TODO: Implement assignRole() method.
 	}
 	
-	public function revoke($role, $userId) {
-		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement revoke($role, $userId) method.
-	}
-	
 	public function isHasRole($userId, $role) {
 		exit('Not Implement of ' . __METHOD__);
 		// TODO: Implement isHasRole() method.
@@ -71,4 +57,34 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		// TODO: Implement allByRole() method.
 	}
 	
+	/**
+	 * Returns the assignment information regarding a role and a user.
+	 *
+	 * @param string     $roleName the role name
+	 * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return null|Assignment the assignment information. Null is returned if
+	 * the role is not assigned to the user.
+	 */
+	public function getAssignment($roleName, $userId) {
+		// TODO: Implement getAssignment() method.
+	}
+	
+	/**
+	 * Removes all role assignments.
+	 */
+	public function removeAllAssignments() {
+		// TODO: Implement removeAllAssignments() method.
+	}
+	
+	/*public function removeAll() {
+		// TODO: Implement removeAll() method.
+	}*/
+	public function revokeAllByItemName($itemName) {
+		// TODO: Implement revokeAllByItemName() method.
+	}
+	
+	public function updateRoleName($itemName, $newItemName) {
+		// TODO: Implement updateRoleName() method.
+	}
 }

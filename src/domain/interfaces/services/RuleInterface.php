@@ -1,7 +1,9 @@
 <?php
 
-namespace yii2lab\rbac\domain\interfaces\repositories;
+namespace yii2lab\rbac\domain\interfaces\services;
 
+use yii\base\InvalidConfigException;
+use yii\rbac\Item;
 use yii\rbac\Rule;
 
 interface RuleInterface {
@@ -52,4 +54,18 @@ interface RuleInterface {
 	 */
 	public function updateRule($name, $rule);
 	
+	/**
+	 * Executes the rule associated with the specified auth item.
+	 *
+	 * If the item does not specify a rule, this method will return true. Otherwise, it will
+	 * return the value of [[Rule::execute()]].
+	 *
+	 * @param string|int $user the user ID. This should be either an integer or a string representing
+	 * the unique identifier of a user. See [[\yii\web\User::id]].
+	 * @param Item $item the auth item that needs to execute its rule
+	 * @param array $params parameters passed to [[CheckAccessInterface::checkAccess()]] and will be passed to the rule
+	 * @return bool the return value of [[Rule::execute()]]. If the auth item does not specify a rule, true will be returned.
+	 * @throws InvalidConfigException if the auth item has an invalid rule.
+	 */
+	public function executeRule($user, $item, $params);
 }

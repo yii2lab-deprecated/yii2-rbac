@@ -2,6 +2,10 @@
 
 namespace yii2lab\rbac\domain\interfaces\repositories;
 
+use yii\rbac\Assignment;
+use yii\rbac\Permission;
+use yii\rbac\Role;
+
 interface AssignmentInterface {
 	
 	/**
@@ -29,6 +33,10 @@ interface AssignmentInterface {
 	 */
 	public function revokeAll($userId);
 	
+	public function revokeAllByItemName($itemName);
+	
+	public function updateRoleName($itemName, $newItemName);
+	
 	/**
 	 * Returns the assignment information regarding a role and a user.
 	 * @param string $roleName the role name
@@ -37,6 +45,8 @@ interface AssignmentInterface {
 	 * the role is not assigned to the user.
 	 */
 	public function getAssignment($roleName, $userId);
+	
+	
 	
 	/**
 	 * Returns all role assignment information for the specified user.
@@ -51,7 +61,7 @@ interface AssignmentInterface {
 	 */
 	public function removeAllAssignments();
 	
-	public function removeAll();
+	//public function removeAll();
 	
 	/**
 	 * Returns all user IDs assigned to the role specified.
@@ -63,27 +73,9 @@ interface AssignmentInterface {
 	
 	
 	
-	/*public function revokeOneRole($userId, $role);
-	
-	public function revokeAll($userId);
-	
-	public function oneAssign($userId, $itemName);
-	
-	public function allByUserId($userId);
-	
 	public function allRoleNamesByUserId($userId);
-	
-	public function getAssignments($userId);
-	
-	public function assign($role, $userId);
-	
-	public function revoke($role, $userId);
-	
 	public function isHasRole($userId, $role);
-	
-	public function getUserIdsByRole($role);
-	
-	public function allByRole($role);*/
+	public function allByRole($role);
 	
 
 }

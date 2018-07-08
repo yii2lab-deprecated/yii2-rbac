@@ -2,6 +2,10 @@
 
 namespace yii2lab\rbac\domain\interfaces\repositories;
 
+use yii\rbac\Item;
+use yii\rbac\Permission;
+use yii\rbac\Role;
+
 interface ItemInterface {
 	
 	
@@ -175,7 +179,7 @@ interface ItemInterface {
 	/**
 	 * Removes all authorization data, including roles, permissions, rules, and assignments.
 	 */
-	public function removeAll();
+	//public function removeAll();
 	
 	/**
 	 * Removes all permissions.
@@ -188,5 +192,12 @@ interface ItemInterface {
 	 * All parent child relations will be adjusted accordingly.
 	 */
 	public function removeAllRoles();
+	
+	public function getAllChildren();
+	
+	public function getAllItems();
+	
+	
+	public function removeRuleFromItems($rule);
 	
 }

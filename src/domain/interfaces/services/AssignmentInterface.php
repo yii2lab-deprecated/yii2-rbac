@@ -12,5 +12,6 @@ interface AssignmentInterface {
 	public function revokeAll($userId);
 	public function isHasRole($userId, $roleName);
 	public function getUserIdsByRole($roleName);
-
+	public function revokeAllByItemName($itemName);
+	public function updateRoleName($itemName, $newItemName);
 }

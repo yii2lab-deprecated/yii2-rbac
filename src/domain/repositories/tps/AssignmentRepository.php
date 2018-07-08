@@ -12,10 +12,13 @@ use yii2woop\generated\transport\TpsCommands;
 
 class AssignmentRepository extends BaseTpsRepository implements AssignmentInterface {
 	
-	public function revokeOneRole($userId, $role) {
-		prr('// TODO: Implement revokeOneRole() method.',1,1);
-	}
-	
+	/**
+	 * Revokes all roles from a user.
+	 *
+	 * @param mixed $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
 	public function revokeAll($userId) {
 		prr('// TODO: Implement revokeAll() method.',1,1);
 	}
@@ -41,6 +44,14 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		$result = $this->send($request);
 	}
 	
+	/**
+	 * Revokes a role from a user.
+	 *
+	 * @param Role|Permission $role
+	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
 	public function revoke($role, $userId) {
 		prr('// TODO: Implement revoke() method.',1,1);
 	}
@@ -62,32 +73,11 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		prr('// TODO: Implement allByRole() method.',1,1);
 	}
 	
-	public function allByUserId($userId) {
+	/*private function allByUserId($userId) {
 		prr('// TODO: Implement allByUserId() method.',1,1);
-	}
+	}*/
 	
-	/**
-	 * Revokes a role from a user.
-	 *
-	 * @param Role|Permission $role
-	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
-	 *
-	 * @return bool whether the revoking is successful
-	 */
-	public function revoke($role, $userId) {
-		// TODO: Implement revoke() method.
-	}
 	
-	/**
-	 * Revokes all roles from a user.
-	 *
-	 * @param mixed $userId the user ID (see [[\yii\web\User::id]])
-	 *
-	 * @return bool whether the revoking is successful
-	 */
-	public function revokeAll($userId) {
-		// TODO: Implement revokeAll() method.
-	}
 	
 	/**
 	 * Returns the assignment information regarding a role and a user.
@@ -109,6 +99,14 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		// TODO: Implement removeAllAssignments() method.
 	}
 	
-	public function removeAll() {
+	/*public function removeAll() {
 		// TODO: Implement removeAll() method.
-}}
+	}*/
+	public function revokeAllByItemName($itemName) {
+		// TODO: Implement revokeAllByItemName() method.
+	}
+	
+	public function updateRoleName($itemName, $newItemName) {
+		// TODO: Implement updateRoleName() method.
+	}
+}

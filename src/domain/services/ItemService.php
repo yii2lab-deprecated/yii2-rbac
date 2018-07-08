@@ -2,10 +2,15 @@
 
 namespace yii2lab\rbac\domain\services;
 
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\rbac\Assignment;
+use yii\rbac\Item;
 use yii\rbac\Permission;
 use yii\rbac\Role;
 use yii\rbac\Rule;
 use yii2lab\domain\services\base\BaseService;
+use yii2lab\rbac\domain\interfaces\services\ItemInterface;
 use yii2lab\rbac\domain\repositories\disc\ItemRepository;
 
 /**
@@ -17,21 +22,11 @@ use yii2lab\rbac\domain\repositories\disc\ItemRepository;
  * @property ItemRepository $repository
  * @property-read array $defaultRoles
  */
-class ItemService extends BaseService {
+class ItemService extends BaseService implements ItemInterface {
 	
 	public function getDefaultRoles()
 	{
 		return $this->repository->getDefaultRoles();
-	}
-	
-	public function getAllChildren()
-	{
-		return $this->repository->getAllChildren();
-	}
-	
-	public function getAllItems()
-	{
-		return $this->repository->getAllItems();
 	}
 	
 	public function getItems($type)
@@ -40,11 +35,19 @@ class ItemService extends BaseService {
 	}
 	
 	public function addItem($item) {
-		return $this->repository->addItem($item);
+		$result = $this->repository->addItem($item);
+		Yii::$domain->rbac->const->generateRoles();
+		Yii::$domain->rbac->const->generatePermissions();
+		return $result;
 	}
 	
 	public function updateItem($name, $item) {
-		return $this->repository->updateItem($name, $item);
+		$this->repository->updateItem($name, $item);
+		if ($name !== $item->name) {
+			$this->domain->assignment->updateRoleName($name, $item->name);
+		}
+		Yii::$domain->rbac->const->generateRoles();
+		Yii::$domain->rbac->const->generatePermissions();
 	}
 	
 	/**
@@ -52,7 +55,13 @@ class ItemService extends BaseService {
 	 */
 	public function removeItem($item)
 	{
-		return $this->repository->removeItem($item);
+		$result = $this->repository->removeItem($item);
+		//if($result) {
+			$this->domain->assignment->revokeAllByItemName($item->name);
+		//}
+		Yii::$domain->rbac->const->generateRoles();
+		Yii::$domain->rbac->const->generatePermissions();
+		return $result;
 	}
 	
 	/**
@@ -111,7 +120,9 @@ class ItemService extends BaseService {
 	 * @return Role the new Role object
 	 */
 	public function createRole($name) {
-		return $this->repository->createRole($name);
+		$result = $this->repository->createRole($name);
+		Yii::$domain->rbac->const->generateRoles();
+		return $result;
 	}
 	
 	/**
@@ -124,43 +135,9 @@ class ItemService extends BaseService {
 	 * @return Permission the new Permission object
 	 */
 	public function createPermission($name) {
-		return $this->repository->createPermission($name);
-	}
-	
-	/**
-	 * Adds a role, permission or rule to the RBAC system.
-	 *
-	 * @param Role|Permission|Rule $object
-	 *
-	 * @return bool whether the role, permission or rule is successfully added to the system
-	 * @throws \Exception if data validation or saving fails (such as the name of the role or permission is not unique)
-	 */
-	public function add($object) {
-		return $this->repository->add($object);
-	}
-	
-	/**
-	 * Removes a role, permission or rule from the RBAC system.
-	 *
-	 * @param Role|Permission|Rule $object
-	 *
-	 * @return bool whether the role, permission or rule is successfully removed
-	 */
-	public function remove($object) {
-		return $this->repository->remove($object);
-	}
-	
-	/**
-	 * Updates the specified role, permission or rule in the system.
-	 *
-	 * @param string               $name the old name of the role, permission or rule
-	 * @param Role|Permission|Rule $object
-	 *
-	 * @return bool whether the update is successful
-	 * @throws \Exception if data validation or saving fails (such as the name of the role or permission is not unique)
-	 */
-	public function update($name, $object) {
-		return $this->repository->update($name, $object);
+		$result = $this->repository->createPermission($name);
+		Yii::$domain->rbac->const->generatePermissions();
+		return $result;
 	}
 	
 	/**
@@ -205,7 +182,9 @@ class ItemService extends BaseService {
 	
 	public function removeAllPermissions()
 	{
-		return $this->repository->removeAllPermissions();
+		$result = $this->repository->removeAllPermissions();
+		Yii::$domain->rbac->const->generatePermissions();
+		return $result;
 	}
 	
 	/**
@@ -213,7 +192,9 @@ class ItemService extends BaseService {
 	 */
 	public function removeAllRoles()
 	{
-		return $this->repository->removeAllRoles();
+		$result = $this->repository->removeAllRoles();
+		Yii::$domain->rbac->const->generateRoles();
+		return $result;
 	}
 	
 	
@@ -231,7 +212,8 @@ class ItemService extends BaseService {
 	 */
 	public function addChild($parent, $child)
 	{
-		return $this->repository->addChild($parent, $child);
+		$result = $this->repository->addChild($parent, $child);
+		return $result;
 	}
 	
 	/**
@@ -239,7 +221,8 @@ class ItemService extends BaseService {
 	 */
 	public function removeChild($parent, $child)
 	{
-		return $this->repository->removeChild($parent, $child);
+		$result = $this->repository->removeChild($parent, $child);
+		return $result;
 	}
 	
 	/**
@@ -247,7 +230,8 @@ class ItemService extends BaseService {
 	 */
 	public function removeChildren($parent)
 	{
-		return $this->repository->removeChildren($parent);
+		$result = $this->repository->removeChildren($parent);
+		return $result;
 	}
 	
 	/**
@@ -256,6 +240,66 @@ class ItemService extends BaseService {
 	public function hasChild($parent, $child)
 	{
 		return $this->repository->hasChild($parent, $child);
+	}
+	
+	/**
+	 * Removes all authorization data, including roles, permissions, rules, and assignments.
+	 */
+	/*public function removeAll() {
+		// TODO: Implement removeAll() method.
+	}*/
+	
+	public function removeRuleFromItems($rule) {
+		$result = $this->repository->removeRuleFromItems($rule);
+		Yii::$domain->rbac->const->generateRoles();
+		Yii::$domain->rbac->const->generatePermissions();
+		return $result;
+	}
+	
+	/**
+	 * Performs access check for the specified user.
+	 * This method is internally called by [[checkAccess()]].
+	 *
+	 * @param string|int $user the user ID. This should can be either an integer or a string representing
+	 * the unique identifier of a user. See [[\yii\web\User::id]].
+	 * @param string $itemName the name of the operation that need access check
+	 * @param array $params name-value pairs that would be passed to rules associated
+	 * with the tasks and roles assigned to the user. A param with name 'user' is added to this array,
+	 * which holds the value of `$userId`.
+	 * @param Assignment[] $assignments the assignments to the specified user
+	 * @return bool whether the operations can be performed by the user.
+	 * @throws InvalidConfigException
+	 */
+	public function checkAccessRecursive($user, $itemName, $params, $assignments)
+	{
+		//$items = $this->domain->item->getAllItems();
+		//$children = $this->domain->item->getAllChildren();
+		
+		$items = $this->repository->getAllItems();
+		$children = $this->repository->getAllChildren();
+		
+		if (!isset($items[$itemName])) {
+			return false;
+		}
+		
+		/* @var $item Item */
+		$item = $items[$itemName];
+		Yii::debug($item instanceof Role ? "Checking role: $itemName" : "Checking permission : $itemName", __METHOD__);
+		
+		if (!$this->domain->rule->executeRule($user, $item, $params)) {
+			return false;
+		}
+		
+		if (isset($assignments[$itemName]) || in_array($itemName, $this->domain->item->defaultRoles)) {
+			return true;
+		}
+		foreach ($children as $parentName => $childrenItem) {
+			if (isset($childrenItem[$itemName]) && $this->checkAccessRecursive($user, $parentName, $params, $assignments)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }

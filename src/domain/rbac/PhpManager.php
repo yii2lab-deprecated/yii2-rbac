@@ -197,9 +197,10 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeAll()
 	{
-		Yii::$domain->rbac->item->removeAll();
-		Yii::$domain->rbac->rule->removeAll();
-		Yii::$domain->rbac->assignment->removeAll();
+		$this->removeAllPermissions();
+		$this->removeAllRoles();
+		$this->removeAllRules();
+		$this->removeAllAssignments();
 	}
 	
 	/**

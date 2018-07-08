@@ -3,7 +3,13 @@
 namespace yii2lab\rbac\domain\services;
 
 use common\enums\app\AppEnum;
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\rbac\Item;
+use yii\rbac\Rule;
+use yii2lab\domain\interfaces\services\CrudInterface;
 use yii2lab\domain\services\base\BaseService;
+use yii2lab\rbac\domain\interfaces\services\RuleInterface;
 use yii2lab\rbac\domain\repositories\disc\RuleRepository;
 
 /**
@@ -14,11 +20,13 @@ use yii2lab\rbac\domain\repositories\disc\RuleRepository;
  * @property \yii2lab\rbac\domain\Domain $domain
  * @property RuleRepository $repository
  */
-class RuleService extends BaseService {
+class RuleService extends BaseService implements RuleInterface {
 	
 	public function updateRule($name, $rule)
 	{
-		return $this->repository->updateRule($name, $rule);
+		$result = $this->repository->updateRule($name, $rule);
+		Yii::$domain->rbac->const->generateRules();
+		return $result;
 	}
 	
 	/**
@@ -43,18 +51,51 @@ class RuleService extends BaseService {
 	 */
 	public function removeAllRules()
 	{
-		return $this->repository->removeAllRules();
+		$result = $this->repository->removeAllRules();
+		Yii::$domain->rbac->const->generateRules();
+		return $result;
 	}
 	
 	public function addRule($rule) {
-		return $this->repository->addRule($rule);
+		$result = $this->repository->addRule($rule);
+		Yii::$domain->rbac->const->generateRules();
+		return $result;
 	}
 	
 	public function removeRule($rule) {
-		return $this->repository->removeRule($rule);
+		$result = $this->repository->removeRule($rule);
+		if($result) {
+			$this->domain->item->removeRuleFromItems($rule);
+		}
+		Yii::$domain->rbac->const->generateRules();
+		return $result;
 	}
 	
-	
+	/**
+	 * Executes the rule associated with the specified auth item.
+	 *
+	 * If the item does not specify a rule, this method will return true. Otherwise, it will
+	 * return the value of [[Rule::execute()]].
+	 *
+	 * @param string|int $user the user ID. This should be either an integer or a string representing
+	 * the unique identifier of a user. See [[\yii\web\User::id]].
+	 * @param Item $item the auth item that needs to execute its rule
+	 * @param array $params parameters passed to [[CheckAccessInterface::checkAccess()]] and will be passed to the rule
+	 * @return bool the return value of [[Rule::execute()]]. If the auth item does not specify a rule, true will be returned.
+	 * @throws InvalidConfigException if the auth item has an invalid rule.
+	 */
+	public function executeRule($user, $item, $params)
+	{
+		if ($item->ruleName === null) {
+			return true;
+		}
+		$rule = $this->domain->rule->getRule($item->ruleName);
+		if ($rule instanceof Rule) {
+			return $rule->execute($user, $item, $params);
+		}
+		
+		throw new InvalidConfigException("Rule not found: {$item->ruleName}");
+	}
 	
 	
 	// =================== old code ==========================
@@ -70,5 +111,9 @@ class RuleService extends BaseService {
 	{
 		return $this->repository->insertBatch($collection);
 	}*/
-
+	
+	/*public function removeAll() {
+		// TODO: Implement removeAll() method.
+	}*/
+	
 }

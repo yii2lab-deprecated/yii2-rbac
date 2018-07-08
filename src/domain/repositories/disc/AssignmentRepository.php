@@ -107,6 +107,36 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 		return false;
 	}
 	
+	public function revokeAllByItemName($itemName)
+	{
+		$result = false;
+		foreach($this->assignments as $userId => $itemName1) {
+			if($itemName == $itemName1) {
+				unset($this->assignments[$userId][$itemName]);
+				$result = true;
+			}
+		}
+		$this->saveAssignments();
+		return $result;
+	}
+	
+	public function updateRoleName($itemName, $newItemName)
+	{
+		$result = false;
+		foreach($this->assignments as $userId => $itemName1) {
+			if($itemName == $itemName1) {
+				/** @var Assignment $assignmentEntity */
+				$assignmentEntity = $this->assignments[$userId][$itemName];
+				$assignmentEntity->roleName = $newItemName;
+				unset($this->assignments[$userId][$itemName]);
+				$this->assignments[$userId][$newItemName] = $assignmentEntity;
+				$result = true;
+			}
+		}
+		$this->saveAssignments();
+		return $result;
+	}
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -118,7 +148,7 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function removeItem($item)
+	/*public function removeItem($item)
 	{
 		if (isset($this->items[$item->name])) {
 			foreach ($this->assignments as &$assignments) {
@@ -129,56 +159,16 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 		}
 		
 		return false;
-	}
+	}*/
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function removeAll()
+	/*public function removeAll()
 	{
 		$this->assignments = [];
 		$this->save();
-	}
-	
-	/**
-	 * Removes all auth items of the specified type.
-	 * @param int $type the auth item type (either Item::TYPE_PERMISSION or Item::TYPE_ROLE)
-	 */
-	protected function removeAllItems($type)
-	{
-		$names = [];
-		/*foreach ($this->items as $name => $item) {
-			if ($item->type == $type) {
-				unset($this->items[$name]);
-				$names[$name] = true;
-			}
-		}
-		if (empty($names)) {
-			return;
-		}*/
-		
-		foreach ($this->assignments as $i => $assignments) {
-			foreach ($assignments as $n => $assignment) {
-				if (isset($names[$assignment->roleName])) {
-					unset($this->assignments[$i][$n]);
-				}
-			}
-		}
-		/*foreach ($this->children as $name => $children) {
-			if (isset($names[$name])) {
-				unset($this->children[$name]);
-			} else {
-				foreach ($children as $childName => $item) {
-					if (isset($names[$childName])) {
-						unset($children[$childName]);
-					}
-				}
-				$this->children[$name] = $children;
-			}
-		}*/
-		
-		//$this->saveItems();
-	}
+	}*/
 	
 	/**
 	 * {@inheritdoc}
@@ -189,52 +179,25 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 		$this->saveAssignments();
 	}
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function updateItem($name, $item)
-	{
-		if ($name !== $item->name) {
-			/*if (isset($this->items[$item->name])) {
-				throw new InvalidArgumentException("Unable to change the item name. The name '{$item->name}' is already used by another item.");
-			}
-			
-			// Remove old item in case of renaming
-			unset($this->items[$name]);
-			
-			if (isset($this->children[$name])) {
-				$this->children[$item->name] = $this->children[$name];
-				unset($this->children[$name]);
-			}
-			foreach ($this->children as &$children) {
-				if (isset($children[$name])) {
-					$children[$item->name] = $children[$name];
-					unset($children[$name]);
-				}
-			}*/
-			foreach ($this->assignments as &$assignments) {
-				if (isset($assignments[$name])) {
-					$assignments[$item->name] = $assignments[$name];
-					$assignments[$item->name]->roleName = $item->name;
-					unset($assignments[$name]);
-				}
-			}
-			$this->saveAssignments();
-		}
-		
-		//$this->items[$item->name] = $item;
-		
-		//$this->saveItems();
-		return true;
+	public function allRoleNamesByUserId($userId) {
+		// TODO: Implement allRoleNamesByUserId() method.
+	}
+	
+	public function isHasRole($userId, $role) {
+		// TODO: Implement isHasRole() method.
+	}
+	
+	public function allByRole($role) {
+		// TODO: Implement allByRole() method.
 	}
 	
 	/**
 	 * Saves authorization data into persistent storage.
 	 */
-	protected function save()
+	/*protected function save()
 	{
 		$this->saveAssignments();
-	}
+	}*/
 	
 	/**
 	 * Saves assignments data into persistent storage.

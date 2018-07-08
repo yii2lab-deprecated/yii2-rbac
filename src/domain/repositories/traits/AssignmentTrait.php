@@ -3,12 +3,22 @@
 namespace yii2lab\rbac\domain\repositories\traits;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Assignment;
+use yii\rbac\Permission;
+use yii\rbac\Role;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\data\Query;
 use yii2module\account\domain\v2\helpers\AssignmentHelper;
 
+/**
+ * Trait AssignmentTrait
+ *
+ * @package yii2lab\rbac\domain\repositories\traits
+ *
+ * @property ActiveRecord $model
+ */
 trait AssignmentTrait {
 	
 	public function tableName()
@@ -47,16 +57,18 @@ trait AssignmentTrait {
 		// TODO: Implement removeAllAssignments() method.
 	}
 	
-	public function removeAll() {
+	/*public function removeAll() {
 		// TODO: Implement removeAll() method.
+	}*/
+	
+	public function revokeAllByItemName($itemName) {
+		// TODO: Implement revokeAllByItemName() method.
 	}
 	
-	
-	
-	
-	public function revokeOneRole($userId, $role) {
-		$this->model->deleteAll(['user_id' => $userId, 'item_name' => $role]);
+	public function updateRoleName($itemName, $newItemName) {
+		// TODO: Implement updateRoleName() method.
 	}
+	
 	
 	/**
 	 * Revokes all roles from a user.
@@ -66,17 +78,17 @@ trait AssignmentTrait {
 	 * @return bool whether the revoking is successful
 	 */
 	public function revokeAll($userId) {
-		$this->model->deleteAll(['user_id' => $userId]);
+		return $this->model->deleteAll(['user_id' => $userId]);
 	}
 	
-	protected function oneAssign($userId, $itemName) {
+	public function oneAssign($userId, $itemName) {
 		$query = Query::forge();
 		$query->where('user_id', $userId);
 		$query->where('item_name', $itemName);
 		return $this->one($query);
 	}
 	
-	public function allByUserId($userId) {
+	private function allByUserId($userId) {
 		$query = Query::forge();
 		$query->where('user_id', $userId);
 		return $this->all($query);
@@ -139,7 +151,7 @@ trait AssignmentTrait {
 	public function revoke($role, $userId) {
 		$userId = $this->getId($userId);
 		$entity = Yii::$domain->account->login->oneById($userId);
-		$this->revokeOneRole($userId, $role);
+		$this->model->deleteAll(['user_id' => $userId, 'item_name' => $role]);
 	}
 	
 	public function isHasRole($userId, $role) {

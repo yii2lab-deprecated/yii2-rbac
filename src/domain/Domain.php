@@ -44,7 +44,9 @@ class Domain extends \yii2lab\domain\Domain {
 				'const',
 				'assignment',
 				'manager',
-				'item',
+				'item'/* => [
+					'defaultRoles' => ['rGuest'],
+				]*/,
 				'misc',
 			], 
 		];
