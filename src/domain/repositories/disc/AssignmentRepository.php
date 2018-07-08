@@ -5,9 +5,10 @@ namespace yii2lab\rbac\domain\repositories\disc;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\rbac\Assignment;
+use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
 use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
 
-class AssignmentRepository extends BaseItemRepository {
+class AssignmentRepository extends BaseItemRepository implements AssignmentInterface {
 	
 	/**
 	 * @var string the path of the PHP script that contains the authorization assignments.
@@ -43,6 +44,17 @@ class AssignmentRepository extends BaseItemRepository {
 		return isset($this->assignments[$userId]) ? $this->assignments[$userId] : [];
 	}
 	
+	/**
+	 * Returns all user IDs assigned to the role specified.
+	 *
+	 * @param string $roleName
+	 *
+	 * @return array array of user ID strings
+	 * @since 2.0.7
+	 */
+	public function getUserIdsByRole($roleName) {
+		// TODO: Implement getUserIdsByRole() method.
+	}
 	
 	/**
 	 * {@inheritdoc}
@@ -280,7 +292,7 @@ class AssignmentRepository extends BaseItemRepository {
 		return $this->forgeAssignments($userId, $roles);
 	}
 
-    public function allUserIdsByRole($role) {
+    public function getUserIdsByRole($role) {
         return [];
     }
 	

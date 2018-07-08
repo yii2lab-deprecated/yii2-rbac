@@ -4,6 +4,7 @@ namespace yii2lab\rbac\domain\repositories\disc;
 
 use Yii;
 use yii\rbac\Item;
+use yii2lab\rbac\domain\interfaces\repositories\ItemInterface;
 use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
 
 //use yii\rbac\ManagerInterface;
@@ -13,7 +14,7 @@ use yii\base\InvalidArgumentException;
 use yii\base\InvalidCallException;
 use yii\base\InvalidValueException;
 
-class ItemRepository extends BaseItemRepository {
+class ItemRepository extends BaseItemRepository implements ItemInterface {
 	
 	/**
 	 * @var array a list of role names that are assigned to every user automatically without calling [[assign()]].
@@ -444,7 +445,7 @@ class ItemRepository extends BaseItemRepository {
 	}
 	
 	private function removeItemRevoke($role) {
-		$ids = Yii::$domain->rbac->assignment->allUserIdsByRole($role);
+		$ids = Yii::$domain->rbac->assignment->getUserIdsByRole($role);
 		if(empty($ids)) {
 			return;
 		}
@@ -657,5 +658,4 @@ class ItemRepository extends BaseItemRepository {
 		$this->saveItems();
 		return true;
 	}
-	
 }

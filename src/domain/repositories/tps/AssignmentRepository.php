@@ -35,7 +35,7 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		return $collection;
 	}
 	
-	public function assignRole($userId, $role) {
+	public function assign($role, $userId) {
 		$loginEntity = Yii::$domain->account->login->oneById($userId);
 		$request = TpsCommands::assignSubjectRoles($loginEntity->login, [$role]);
 		$result = $this->send($request);
@@ -54,8 +54,8 @@ class AssignmentRepository extends BaseTpsRepository implements AssignmentInterf
 		}
 	}
 	
-	public function allUserIdsByRole($role) {
-		prr('// TODO: Implement allUserIdsByRole() method.',1,1);
+	public function getUserIdsByRole($role) {
+		prr('// TODO: Implement getUserIdsByRole() method.',1,1);
 	}
 	
 	public function allByRole($role) {

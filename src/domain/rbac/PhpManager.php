@@ -129,7 +129,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function assign($role, $userId)
 	{
-		return Yii::$domain->rbac->assignment->assignRole($userId, $role);
+		return Yii::$domain->rbac->assignment->assign($role, $userId);
 	}
 	
 	/**
@@ -250,9 +250,8 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeAll()
 	{
-		Yii::$domain->rbac->item->removeAllPermissions();
-		Yii::$domain->rbac->item->removeAllRoles();
-		Yii::$domain->rbac->rule->removeAllRules();
+		Yii::$domain->rbac->item->removeAll();
+		Yii::$domain->rbac->rule->removeAll();
 		Yii::$domain->rbac->assignment->removeAll();
 	}
 	
@@ -293,7 +292,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getUserIdsByRole($roleName)
 	{
-		return Yii::$domain->rbac->assignment->allUserIdsByRole($roleName);
+		return Yii::$domain->rbac->assignment->getUserIdsByRole($roleName);
 	}
 	
 	/**

@@ -2,9 +2,9 @@
 
 namespace yii2lab\rbac\domain\interfaces\services;
 
-interface AssignmentInterface {
+interface ItemInterface {
 	
-	//public function allByUserId(int $userId);
+	public function allByUserId(int $userId);
 	public function allRoleNamesByUserId(int $userId);
 	public function allAssignments($userId);
 	public function assign($role, $userId);

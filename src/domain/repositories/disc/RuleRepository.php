@@ -4,9 +4,10 @@ namespace yii2lab\rbac\domain\repositories\disc;
 
 use Yii;
 use yii\rbac\Rule;
+use yii2lab\rbac\domain\interfaces\repositories\RuleInterface;
 use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
 
-class RuleRepository extends BaseItemRepository {
+class RuleRepository extends BaseItemRepository implements RuleInterface {
 	
 	/**
 	 * @var string the path of the PHP script that contains the authorization rules.

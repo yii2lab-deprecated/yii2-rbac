@@ -46,7 +46,7 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		}
 	}
 	
-	public function assignRole($userId, $role) {
+	public function assign($role, $userId) {
 		exit('Not Implement of ' . __METHOD__);
 		// TODO: Implement assignRole() method.
 	}
@@ -61,9 +61,9 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 		// TODO: Implement isHasRole() method.
 	}
 	
-	public function allUserIdsByRole($role) {
+	public function getUserIdsByRole($role) {
 		exit('Not Implement of ' . __METHOD__);
-		// TODO: Implement allUserIdsByRole() method.
+		// TODO: Implement getUserIdsByRole() method.
 	}
 	
 	public function allByRole($role) {

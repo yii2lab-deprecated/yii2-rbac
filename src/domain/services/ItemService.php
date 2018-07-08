@@ -15,8 +15,14 @@ use yii2lab\rbac\domain\repositories\disc\ItemRepository;
  *
  * @property \yii2lab\rbac\domain\Domain $domain
  * @property ItemRepository $repository
+ * @property-read array $defaultRoles
  */
 class ItemService extends BaseService {
+	
+	public function getDefaultRoles()
+	{
+		return $this->repository->getDefaultRoles();
+	}
 	
 	public function getAllChildren()
 	{

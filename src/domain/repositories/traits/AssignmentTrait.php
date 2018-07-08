@@ -20,6 +20,74 @@ trait AssignmentTrait {
 		return ['user_id', 'item_name'];
 	}
 	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Revokes a role from a user.
+	 *
+	 * @param Role|Permission $role
+	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
+	public function revoke($role, $userId) {
+		// TODO: Implement revoke() method.
+	}
+	
+	/**
+	 * Revokes all roles from a user.
+	 *
+	 * @param mixed $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return bool whether the revoking is successful
+	 */
+	public function revokeAll($userId) {
+		// TODO: Implement revokeAll() method.
+	}
+	
+	/**
+	 * Returns the assignment information regarding a role and a user.
+	 *
+	 * @param string     $roleName the role name
+	 * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return null|Assignment the assignment information. Null is returned if
+	 * the role is not assigned to the user.
+	 */
+	public function getAssignment($roleName, $userId) {
+		// TODO: Implement getAssignment() method.
+	}
+	
+	/**
+	 * Returns all role assignment information for the specified user.
+	 *
+	 * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return Assignment[] the assignments indexed by role names. An empty array will be
+	 * returned if there is no role assigned to the user.
+	 */
+	public function getAssignments($userId) {
+		// TODO: Implement getAssignments() method.
+	}
+	
+	/**
+	 * Removes all role assignments.
+	 */
+	public function removeAllAssignments() {
+		// TODO: Implement removeAllAssignments() method.
+	}
+	
+	public function removeAll() {
+		// TODO: Implement removeAll() method.
+	}
+	
+	
+	
+	
 	public function revokeOneRole($userId, $role) {
 		$this->model->deleteAll(['user_id' => $userId, 'item_name' => $role]);
 	}
@@ -28,7 +96,7 @@ trait AssignmentTrait {
 		$this->model->deleteAll(['user_id' => $userId]);
 	}
 	
-	public function oneAssign($userId, $itemName) {
+	protected function oneAssign($userId, $itemName) {
 		$query = Query::forge();
 		$query->where('user_id', $userId);
 		$query->where('item_name', $itemName);
@@ -58,7 +126,16 @@ trait AssignmentTrait {
 		return AssignmentHelper::forge($userId, $roles);
 	}
 	
-	public function assignRole($userId, $role) {
+	/**
+	 * Assigns a role to a user.
+	 *
+	 * @param Role|Permission $role
+	 * @param string|int      $userId the user ID (see [[\yii\web\User::id]])
+	 *
+	 * @return Assignment the role assignment information.
+	 * @throws \Exception if the role has already been assigned to the user
+	 */
+	public function assign($role, $userId) {
 		
 		$userId = $this->getId($userId);
 		$entity = Yii::$domain->account->login->oneById($userId);
@@ -85,7 +162,7 @@ trait AssignmentTrait {
 		}
 	}
 	
-	public function allUserIdsByRole($role) {
+	public function getUserIdsByRole($role) {
 		$collection = $this->allByRole($role);
 		return ArrayHelper::getColumn($collection, 'user_id');
 	}

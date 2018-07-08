@@ -9,7 +9,7 @@ use yii\rbac\Item;
 use yii\rbac\Role;
 use yii\rbac\Rule;
 use yii\web\ForbiddenHttpException;
-use yii2lab\domain\services\BaseService;
+use yii2lab\domain\services\base\BaseService;
 use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
 
 /**
@@ -22,33 +22,21 @@ use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
  */
 class ManagerService extends BaseService implements ManagerInterface {
 	
-	/**
-	 * @var \yii2lab\rbac\domain\rbac\custom\PhpManager
-	 */
-	protected $instance;
+	public function can($rule, $param = null, $allowCaching = true) {
+		if($this->repository->isGuestOnlyAllowed($rule)) {
+			throw new ForbiddenHttpException();
+		}
+		if($this->repository->isAuthOnlyAllowed($rule)) {
+			Yii::$domain->account->auth->breakSession();
+		}
+		if(!Yii::$app->user->can($rule, $param, $allowCaching)) {
+			if(Yii::$app->user->isGuest) {
+				Yii::$domain->account->auth->breakSession();
+			}
+			throw new ForbiddenHttpException();
+		}
+	}
 	
-	/**
-	 * @var Item[]
-	 */
-	protected $items = []; // itemName => item
-	/**
-	 * @var array
-	 */
-	protected $children = []; // itemName, childName => child
-	/**
-	 * @var array
-	 */
-	//protected $assignments = []; // userId, itemName => assignment
-	/**
-	 * @var Rule[]
-	 */
-	protected $rules = []; // ruleName => rule
-	
-	/**
-	 * @var array a list of role names that are assigned to every user automatically without calling [[assign()]].
-	 * Note that these roles are applied to users, regardless of their state of authentication.
-	 */
-	protected $defaultRoles = [];
 	
 	public function checkAccess($userId, $permissionName, $params = [])
 	{
@@ -70,7 +58,7 @@ class ManagerService extends BaseService implements ManagerInterface {
 	 */
 	protected function hasNoAssignments(array $assignments)
 	{
-		return empty($assignments) && empty($this->defaultRoles);
+		return empty($assignments) && empty($this->domain->item->defaultRoles);
 	}
 	
 	/**
@@ -89,23 +77,26 @@ class ManagerService extends BaseService implements ManagerInterface {
 	 */
 	protected function checkAccessRecursive($user, $itemName, $params, $assignments)
 	{
-		if (!isset($this->items[$itemName])) {
+		$items = $this->domain->item->getAllItems();
+		$children = $this->domain->item->getAllChildren();
+		
+		if (!isset($items[$itemName])) {
 			return false;
 		}
 		
 		/* @var $item Item */
-		$item = $this->items[$itemName];
+		$item = $items[$itemName];
 		Yii::debug($item instanceof Role ? "Checking role: $itemName" : "Checking permission : $itemName", __METHOD__);
 		
 		if (!$this->executeRule($user, $item, $params)) {
 			return false;
 		}
 		
-		if (isset($assignments[$itemName]) || in_array($itemName, $this->defaultRoles)) {
+		if (isset($assignments[$itemName]) || in_array($itemName, $this->domain->item->defaultRoles)) {
 			return true;
 		}
-		foreach ($this->children as $parentName => $children) {
-			if (isset($children[$itemName]) && $this->checkAccessRecursive($user, $parentName, $params, $assignments)) {
+		foreach ($children as $parentName => $childrenItem) {
+			if (isset($childrenItem[$itemName]) && $this->checkAccessRecursive($user, $parentName, $params, $assignments)) {
 				return true;
 			}
 		}
@@ -139,34 +130,4 @@ class ManagerService extends BaseService implements ManagerInterface {
 		throw new InvalidConfigException("Rule not found: {$item->ruleName}");
 	}
 	
-	public function init()
-	{
-		parent::init();
-		/*$this->instance = Yii::createObject([
-			'class' => 'yii2lab\rbac\domain\rbac\custom\PhpManager',
-			'itemFile' => '@common/data/rbac/items.php',
-			'ruleFile' => '@common/data/rbac/rules.php',
-			'defaultRoles' => ['rGuest'],
-		]);*/
-		$this->items = $this->domain->item->getAllItems();
-		$this->children = $this->domain->item->getAllChildren();
-		// todo: hardcode
-		$this->defaultRoles = ['rGuest'];
-	}
-	
-	public function can($rule, $param = null, $allowCaching = true) {
-		if($this->repository->isGuestOnlyAllowed($rule)) {
-			throw new ForbiddenHttpException();
-		}
-		if($this->repository->isAuthOnlyAllowed($rule)) {
-			Yii::$domain->account->auth->breakSession();
-		}
-		if(!Yii::$app->user->can($rule, $param, $allowCaching)) {
-			if(Yii::$app->user->isGuest) {
-				Yii::$domain->account->auth->breakSession();
-			}
-			throw new ForbiddenHttpException();
-		}
-	}
-
 }
