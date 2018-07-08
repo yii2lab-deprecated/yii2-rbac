@@ -10,10 +10,11 @@ use yii2lab\rbac\domain\interfaces\services\AssignmentInterface;
  *
  * @package yii2lab\rbac\domain\services
  *
+ * @property \yii2lab\rbac\domain\Domain $domain
  * @property \yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface $repository
  */
 class AssignmentService extends BaseActiveService implements AssignmentInterface {
-
+	
 	public function allByUserId(int $userId) {
 		return $this->repository->allByUserId($userId);
 	}
@@ -24,6 +25,10 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 	
 	public function allAssignments($userId) {
 		return $this->repository->allAssignments($userId);
+	}
+	
+	public function getAssignment($roleName, $userId) {
+		return $this->repository->getAssignment($roleName, $userId);
 	}
 	
 	public function assignRole($userId, $role) {
@@ -44,6 +49,11 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 	
 	public function allUserIdsByRole($roleName) {
 		return $this->repository->allUserIdsByRole($roleName);
+	}
+	
+	public function removeAllAssignments()
+	{
+		return $this->repository->removeAllAssignments();
 	}
 }
 
