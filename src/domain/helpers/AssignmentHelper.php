@@ -7,7 +7,7 @@ use yii\rbac\Assignment;
 class AssignmentHelper {
 	
 	public static function forge($userId, $roleName) {
-		if(empty($roleName)) {
+		if(empty($roleName) || empty($userId)) {
 			return [];
 		}
 		if(is_array($roleName)) {

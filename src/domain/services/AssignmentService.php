@@ -30,6 +30,9 @@ class AssignmentService extends BaseActiveService implements AssignmentInterface
 	}
 	
 	public function getAssignments($userId) {
+		if(empty($userId)) {
+			return [];
+		}
 		return $this->repository->getAssignments($userId);
 	}
 	
