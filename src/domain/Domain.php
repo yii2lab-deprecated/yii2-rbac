@@ -8,14 +8,13 @@ use yii2lab\rbac\domain\repositories\disc\RuleRepository;
 
 /**
  * Class Domain
- *
+ * 
  * @package yii2lab\rbac\domain
- *
- * @property \yii2lab\rbac\domain\services\RuleService $rule
- * @property \yii2lab\rbac\domain\services\ConstService $const
- * @property \yii2lab\rbac\domain\services\AssignmentService $assignment
- * @property \yii2lab\rbac\domain\services\ManagerService $manager
- * @property \yii2lab\rbac\domain\services\ItemService $item
+ * @property-read \yii2lab\rbac\domain\interfaces\services\AssignmentInterface $assignment
+ * @property-read \yii2lab\rbac\domain\interfaces\services\ItemInterface $item
+ * @property-read \yii2lab\rbac\domain\interfaces\services\ManagerInterface $manager
+ * @property-read \yii2lab\rbac\domain\interfaces\services\RuleInterface $rule
+ * @property-read \yii2lab\rbac\domain\interfaces\repositories\RepositoriesInterface $repositories
  */
 class Domain extends \yii2lab\domain\Domain {
 	
