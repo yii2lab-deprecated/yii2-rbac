@@ -2,20 +2,12 @@
 
 namespace tests\functional\v1\services;
 
-use Codeception\Test\Unit;
-use UnitTester;
+use yii2lab\test\Test\Unit;
 use Yii;
 use tests\functional\v1\enums\LoginEnum;
 use yii\web\ForbiddenHttpException;
 use yii2module\account\domain\v2\helpers\TestAuthHelper;
 
-/**
- * Class LoginTest
- *
- * @package tests\unit\services
- *
- *  @property UnitTester $tester
- */
 class RbacTest extends Unit
 {
 	
