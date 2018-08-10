@@ -2,8 +2,8 @@
 
 namespace yii2lab\rbac\admin\helpers;
 
-use common\enums\rbac\PermissionEnum;
 use yii2lab\extension\menu\interfaces\MenuInterface;
+use yii2lab\rbac\domain\enums\RbacPermissionEnum;
 
 class Menu implements MenuInterface {
 	
@@ -11,7 +11,7 @@ class Menu implements MenuInterface {
 		return [
 			'label' => ['admin', 'rbac'],
 			'module' => 'rbac',
-			'access' => PermissionEnum::RBAC_MANAGE,
+			'access' => RbacPermissionEnum::MANAGE,
 			'icon' => 'user-o',
 			'items' => [
 				[
