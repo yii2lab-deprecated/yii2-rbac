@@ -3,9 +3,9 @@
 namespace yii2lab\rbac\console\controllers;
 
 use Yii;
-use yii2lab\console\base\Controller;
-use yii2lab\console\helpers\input\Question;
-use yii2lab\console\helpers\Output;
+use yii2lab\extension\console\base\Controller;
+use yii2lab\extension\console\helpers\input\Question;
+use yii2lab\extension\console\helpers\Output;
 
 class ConstController extends Controller
 {

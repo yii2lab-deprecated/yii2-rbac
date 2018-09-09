@@ -4,7 +4,7 @@ namespace yii2lab\rbac\domain\filters;
 
 use Yii;
 use yii\helpers\Inflector;
-use yii2lab\designPattern\scenario\base\BaseScenario;
+use yii2lab\extension\scenario\base\BaseScenario;
 use yii2module\error\domain\helpers\CodeHelper;
 use yii2module\error\domain\helpers\OutputHelper;
 

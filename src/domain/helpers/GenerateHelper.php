@@ -2,8 +2,8 @@
 
 namespace yii2lab\rbac\domain\helpers;
 
-use yii2lab\helpers\generator\ClassGeneratorHelper;
-use yii2lab\helpers\generator\EnumGeneratorHelper;
+use yii2lab\extension\code\helpers\generator\ClassGeneratorHelper;
+use yii2lab\extension\code\helpers\generator\EnumGeneratorHelper;
 
 class GenerateHelper
 {

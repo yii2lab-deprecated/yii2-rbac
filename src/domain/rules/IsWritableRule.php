@@ -4,7 +4,7 @@ namespace yii2lab\rbac\domain\rules;
 
 use yii\rbac\Rule;
 use yii2lab\domain\BaseEntity;
-use yii2lab\misc\exceptions\InvalidMethodParameterException;
+use yii2lab\extension\common\exceptions\InvalidMethodParameterException;
 use yii2mod\helpers\ArrayHelper;
 
 class IsWritableRule  extends Rule
