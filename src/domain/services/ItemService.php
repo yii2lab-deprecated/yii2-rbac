@@ -36,8 +36,8 @@ class ItemService extends BaseService implements ItemInterface {
 	
 	public function addItem($item) {
 		$result = $this->repository->addItem($item);
-		Yii::$domain->rbac->const->generateRoles();
-		Yii::$domain->rbac->const->generatePermissions();
+		\App::$domain->rbac->const->generateRoles();
+		\App::$domain->rbac->const->generatePermissions();
 		return $result;
 	}
 	
@@ -46,8 +46,8 @@ class ItemService extends BaseService implements ItemInterface {
 		if ($name !== $item->name) {
 			$this->domain->assignment->updateRoleName($name, $item->name);
 		}
-		Yii::$domain->rbac->const->generateRoles();
-		Yii::$domain->rbac->const->generatePermissions();
+		\App::$domain->rbac->const->generateRoles();
+		\App::$domain->rbac->const->generatePermissions();
 	}
 	
 	/**
@@ -59,8 +59,8 @@ class ItemService extends BaseService implements ItemInterface {
 		//if($result) {
 			$this->domain->assignment->revokeAllByItemName($item->name);
 		//}
-		Yii::$domain->rbac->const->generateRoles();
-		Yii::$domain->rbac->const->generatePermissions();
+		\App::$domain->rbac->const->generateRoles();
+		\App::$domain->rbac->const->generatePermissions();
 		return $result;
 	}
 	
@@ -121,7 +121,7 @@ class ItemService extends BaseService implements ItemInterface {
 	 */
 	public function createRole($name) {
 		$result = $this->repository->createRole($name);
-		Yii::$domain->rbac->const->generateRoles();
+		\App::$domain->rbac->const->generateRoles();
 		return $result;
 	}
 	
@@ -136,7 +136,7 @@ class ItemService extends BaseService implements ItemInterface {
 	 */
 	public function createPermission($name) {
 		$result = $this->repository->createPermission($name);
-		Yii::$domain->rbac->const->generatePermissions();
+		\App::$domain->rbac->const->generatePermissions();
 		return $result;
 	}
 	
@@ -183,7 +183,7 @@ class ItemService extends BaseService implements ItemInterface {
 	public function removeAllPermissions()
 	{
 		$result = $this->repository->removeAllPermissions();
-		Yii::$domain->rbac->const->generatePermissions();
+		\App::$domain->rbac->const->generatePermissions();
 		return $result;
 	}
 	
@@ -193,7 +193,7 @@ class ItemService extends BaseService implements ItemInterface {
 	public function removeAllRoles()
 	{
 		$result = $this->repository->removeAllRoles();
-		Yii::$domain->rbac->const->generateRoles();
+		\App::$domain->rbac->const->generateRoles();
 		return $result;
 	}
 	
@@ -251,8 +251,8 @@ class ItemService extends BaseService implements ItemInterface {
 	
 	public function removeRuleFromItems($rule) {
 		$result = $this->repository->removeRuleFromItems($rule);
-		Yii::$domain->rbac->const->generateRoles();
-		Yii::$domain->rbac->const->generatePermissions();
+		\App::$domain->rbac->const->generateRoles();
+		\App::$domain->rbac->const->generatePermissions();
 		return $result;
 	}
 	

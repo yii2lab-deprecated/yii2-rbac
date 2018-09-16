@@ -249,7 +249,7 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 		if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $userId) {
 			$roles = Yii::$app->user->identity->roles;
 		} else {
-			$userEntity = Yii::$domain->account->login->oneById($userId);
+			$userEntity = \App::$domain->account->login->oneById($userId);
 			$roles = $userEntity->roles;
 		}
 		return $this->forgeAssignments($userId, $roles);

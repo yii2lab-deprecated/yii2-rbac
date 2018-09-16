@@ -14,7 +14,7 @@ class AssignmentController extends \mdm\admin\controllers\AssignmentController {
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = Yii::$domain->account->login->getDataProvider();
+		$dataProvider = \App::$domain->account->login->getDataProvider();
 		return $this->render('index', [
 			'dataProvider' => $dataProvider,
 			//'searchModel' => $searchModel,
@@ -31,7 +31,7 @@ class AssignmentController extends \mdm\admin\controllers\AssignmentController {
 	 */
 	public function actionView($id)
 	{
-		$user = Yii::$domain->account->login->oneById($id);
+		$user = \App::$domain->account->login->oneById($id);
 		$model = new Assignment($id, $user);
 		return $this->render('view', [
 			'model' => $model,
@@ -52,7 +52,7 @@ class AssignmentController extends \mdm\admin\controllers\AssignmentController {
 		foreach($items as $role) {
 			Yii::$app->authManager->assign($role, $id);
 		}
-		$user = Yii::$domain->account->login->oneById($id);
+		$user = \App::$domain->account->login->oneById($id);
 		$model = new Assignment($id, $user);
 		$success = true;
 		Yii::$app->getResponse()->format = 'json';
@@ -68,7 +68,7 @@ class AssignmentController extends \mdm\admin\controllers\AssignmentController {
 	{
 		$items = Yii::$app->getRequest()->post('items', []);
 		/** @var LoginEntity $user */
-		$user = Yii::$domain->account->login->oneById($id);
+		$user = \App::$domain->account->login->oneById($id);
 		if(count($user->roles) > 1) {
 			foreach($items as $role) {
 				Yii::$app->authManager->revoke($role, $id);

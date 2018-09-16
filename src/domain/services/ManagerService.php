@@ -23,11 +23,11 @@ class ManagerService extends BaseService implements ManagerInterface {
 			throw new ForbiddenHttpException();
 		}
 		if($this->repository->isAuthOnlyAllowed($rule)) {
-			Yii::$domain->account->auth->breakSession();
+			\App::$domain->account->auth->breakSession();
 		}
 		if(!Yii::$app->user->can($rule, $param, $allowCaching)) {
 			if(Yii::$app->user->isGuest) {
-				Yii::$domain->account->auth->breakSession();
+				\App::$domain->account->auth->breakSession();
 			}
 			throw new ForbiddenHttpException();
 		}
@@ -36,7 +36,7 @@ class ManagerService extends BaseService implements ManagerInterface {
 	
 	public function checkAccess($userId, $permissionName, $params = [])
 	{
-		$assignments = Yii::$domain->rbac->assignment->getAssignments($userId);
+		$assignments = \App::$domain->rbac->assignment->getAssignments($userId);
 		
 		if ($this->hasNoAssignments($assignments)) {
 			return false;

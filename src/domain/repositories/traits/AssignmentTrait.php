@@ -131,7 +131,7 @@ trait AssignmentTrait {
 	public function assign($role, $userId) {
 		
 		$userId = $this->getId($userId);
-		$entity = Yii::$domain->account->login->oneById($userId);
+		$entity = \App::$domain->account->login->oneById($userId);
 		$assignEntity = $this->forgeEntity([
 			'user_id' => $userId,
 			'item_name' => $role,
@@ -150,7 +150,7 @@ trait AssignmentTrait {
 	 */
 	public function revoke($role, $userId) {
 		$userId = $this->getId($userId);
-		$entity = Yii::$domain->account->login->oneById($userId);
+		$entity = \App::$domain->account->login->oneById($userId);
 		$this->model->deleteAll(['user_id' => $userId, 'item_name' => $role]);
 	}
 	

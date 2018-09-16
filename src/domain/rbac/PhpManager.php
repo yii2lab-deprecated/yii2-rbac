@@ -19,7 +19,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function checkAccess($userId, $permissionName, $params = [])
 	{
-		return Yii::$domain->rbac->manager->checkAccess($userId, $permissionName, $params = []);
+		return \App::$domain->rbac->manager->checkAccess($userId, $permissionName, $params = []);
 	}
 	
 	/**
@@ -27,7 +27,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getAssignments($userId)
 	{
-		return Yii::$domain->rbac->assignment->getAssignments($userId);
+		return \App::$domain->rbac->assignment->getAssignments($userId);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function canAddChild($parent, $child)
 	{
-		return Yii::$domain->rbac->item->canAddChild($parent, $child);
+		return \App::$domain->rbac->item->canAddChild($parent, $child);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function addChild($parent, $child)
 	{
-		return Yii::$domain->rbac->item->addChild($parent, $child);
+		return \App::$domain->rbac->item->addChild($parent, $child);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeChild($parent, $child)
 	{
-		return Yii::$domain->rbac->item->removeChild($parent, $child);
+		return \App::$domain->rbac->item->removeChild($parent, $child);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeChildren($parent)
 	{
-		return Yii::$domain->rbac->item->removeChildren($parent);
+		return \App::$domain->rbac->item->removeChildren($parent);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function hasChild($parent, $child)
 	{
-		return Yii::$domain->rbac->item->hasChild($parent, $child);
+		return \App::$domain->rbac->item->hasChild($parent, $child);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function assign($role, $userId)
 	{
-		return Yii::$domain->rbac->assignment->assign($role, $userId);
+		return \App::$domain->rbac->assignment->assign($role, $userId);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function revoke($role, $userId)
 	{
-		Yii::$domain->rbac->assignment->revoke($role, $userId);
+		\App::$domain->rbac->assignment->revoke($role, $userId);
 	}
 	
 	/**
@@ -92,7 +92,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function revokeAll($userId)
 	{
-		Yii::$domain->rbac->assignment->revokeAll($userId);
+		\App::$domain->rbac->assignment->revokeAll($userId);
 	}
 	
 	/**
@@ -100,7 +100,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getAssignment($roleName, $userId)
 	{
-		return Yii::$domain->rbac->assignment->getAssignment($roleName, $userId);
+		return \App::$domain->rbac->assignment->getAssignment($roleName, $userId);
 	}
 	
 	/**
@@ -108,7 +108,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getItems($type)
 	{
-		return Yii::$domain->rbac->item->getItems($type);
+		return \App::$domain->rbac->item->getItems($type);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeItem($item)
 	{
-		return Yii::$domain->rbac->item->removeItem($item);
+		return \App::$domain->rbac->item->removeItem($item);
 	}
 	
 	/**
@@ -124,7 +124,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getItem($name)
 	{
-		return Yii::$domain->rbac->item->getItem($name);
+		return \App::$domain->rbac->item->getItem($name);
 	}
 	
 	/**
@@ -132,7 +132,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function updateRule($name, $rule)
 	{
-		return Yii::$domain->rbac->rule->updateRule($name, $rule);
+		return \App::$domain->rbac->rule->updateRule($name, $rule);
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getRule($name)
 	{
-		return Yii::$domain->rbac->rule->getRule($name);
+		return \App::$domain->rbac->rule->getRule($name);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getRules()
 	{
-		return Yii::$domain->rbac->rule->getRules();
+		return \App::$domain->rbac->rule->getRules();
 	}
 	
 	/**
@@ -157,7 +157,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getRolesByUser($userId)
 	{
-		return Yii::$domain->rbac->item->getRolesByUser($userId);
+		return \App::$domain->rbac->item->getRolesByUser($userId);
 	}
 	
 	/**
@@ -165,7 +165,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getChildRoles($roleName)
 	{
-		return Yii::$domain->rbac->item->getChildRoles($roleName);
+		return \App::$domain->rbac->item->getChildRoles($roleName);
 	}
 	
 	/**
@@ -173,7 +173,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getPermissionsByRole($roleName)
 	{
-		return Yii::$domain->rbac->item->getPermissionsByRole($roleName);
+		return \App::$domain->rbac->item->getPermissionsByRole($roleName);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getPermissionsByUser($userId)
 	{
-		return Yii::$domain->rbac->item->getPermissionsByUser($userId);
+		return \App::$domain->rbac->item->getPermissionsByUser($userId);
 	}
 	
 	/**
@@ -189,7 +189,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getChildren($name)
 	{
-		return Yii::$domain->rbac->item->getChildren($name);
+		return \App::$domain->rbac->item->getChildren($name);
 	}
 	
 	/**
@@ -208,7 +208,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeAllPermissions()
 	{
-		return Yii::$domain->rbac->item->removeAllPermissions();
+		return \App::$domain->rbac->item->removeAllPermissions();
 	}
 	
 	/**
@@ -216,7 +216,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeAllRoles()
 	{
-		return Yii::$domain->rbac->item->removeAllRoles();
+		return \App::$domain->rbac->item->removeAllRoles();
 	}
 	
 	/**
@@ -224,7 +224,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeAllRules()
 	{
-		return Yii::$domain->rbac->rule->removeAllRules();
+		return \App::$domain->rbac->rule->removeAllRules();
 	}
 	
 	/**
@@ -232,7 +232,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function removeAllAssignments()
 	{
-		return Yii::$domain->rbac->assignment->removeAllAssignments();
+		return \App::$domain->rbac->assignment->removeAllAssignments();
 	}
 	
 	/**
@@ -240,7 +240,7 @@ class PhpManager extends Component implements ManagerInterface
 	 */
 	public function getUserIdsByRole($roleName)
 	{
-		return Yii::$domain->rbac->assignment->getUserIdsByRole($roleName);
+		return \App::$domain->rbac->assignment->getUserIdsByRole($roleName);
 	}
 	
 	/**
@@ -253,7 +253,7 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return Role the new Role object
 	 */
 	public function createRole($name) {
-		return Yii::$domain->rbac->item->createRole($name);
+		return \App::$domain->rbac->item->createRole($name);
 	}
 	
 	/**
@@ -266,7 +266,7 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return Permission the new Permission object
 	 */
 	public function createPermission($name) {
-		return Yii::$domain->rbac->item->createPermission($name);
+		return \App::$domain->rbac->item->createPermission($name);
 	}
 	
 	/**
@@ -283,18 +283,18 @@ class PhpManager extends Component implements ManagerInterface
 			if ($object->ruleName && $this->getRule($object->ruleName) === null) {
 				$rule = \Yii::createObject($object->ruleName);
 				$rule->name = $object->ruleName;
-				Yii::$domain->rbac->rule->addRule($rule);
+				\App::$domain->rbac->rule->addRule($rule);
 			}
 			
-			return Yii::$domain->rbac->item->addItem($object);
+			return \App::$domain->rbac->item->addItem($object);
 		} elseif ($object instanceof Rule) {
-			return Yii::$domain->rbac->rule->addRule($object);
+			return \App::$domain->rbac->rule->addRule($object);
 		}
 		
 		throw new InvalidArgumentException('Adding unsupported object type.');
 	}
 	/*public function add($object) {
-		return Yii::$domain->rbac->item->add($object);
+		return \App::$domain->rbac->item->add($object);
 	}*/
 	
 	
@@ -308,16 +308,16 @@ class PhpManager extends Component implements ManagerInterface
 	public function remove($object)
 	{
 		if ($object instanceof Item) {
-			Yii::$domain->rbac->assignment->removeItem($object);
-			return Yii::$domain->rbac->item->removeItem($object);
+			\App::$domain->rbac->assignment->removeItem($object);
+			return \App::$domain->rbac->item->removeItem($object);
 		} elseif ($object instanceof Rule) {
-			return Yii::$domain->rbac->rule->removeRule($object);
+			return \App::$domain->rbac->rule->removeRule($object);
 		}
 		
 		throw new InvalidArgumentException('Removing unsupported object type.');
 	}
 	/*public function remove($object) {
-		return Yii::$domain->rbac->item->remove($object);
+		return \App::$domain->rbac->item->remove($object);
 	}*/
 	
 	/**
@@ -335,10 +335,10 @@ class PhpManager extends Component implements ManagerInterface
 			if ($object->ruleName && $this->getRule($object->ruleName) === null) {
 				$rule = \Yii::createObject($object->ruleName);
 				$rule->name = $object->ruleName;
-				Yii::$domain->rbac->rule->addRule($rule);
+				\App::$domain->rbac->rule->addRule($rule);
 			}
-			$updateItem = Yii::$domain->rbac->item->updateItem($name, $object);
-			Yii::$domain->rbac->assignment->updateItem($name, $object);
+			$updateItem = \App::$domain->rbac->item->updateItem($name, $object);
+			\App::$domain->rbac->assignment->updateItem($name, $object);
 			return $updateItem;
 		} elseif ($object instanceof Rule) {
 			return $this->updateRule($name, $object);
@@ -347,7 +347,7 @@ class PhpManager extends Component implements ManagerInterface
 		throw new InvalidArgumentException('Updating unsupported object type.');
 	}
 	/*public function update($name, $object) {
-		return Yii::$domain->rbac->item->update($name, $object);
+		return \App::$domain->rbac->item->update($name, $object);
 	}*/
 	
 	/**
@@ -358,7 +358,7 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return null|Role the role corresponding to the specified name. Null is returned if no such role.
 	 */
 	public function getRole($name) {
-		return Yii::$domain->rbac->item->getRole($name);
+		return \App::$domain->rbac->item->getRole($name);
 	}
 	
 	/**
@@ -367,7 +367,7 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return Role[] all roles in the system. The array is indexed by the role names.
 	 */
 	public function getRoles() {
-		return Yii::$domain->rbac->item->getRoles();
+		return \App::$domain->rbac->item->getRoles();
 	}
 	
 	/**
@@ -378,7 +378,7 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return null|Permission the permission corresponding to the specified name. Null is returned if no such permission.
 	 */
 	public function getPermission($name) {
-		return Yii::$domain->rbac->item->getPermission($name);
+		return \App::$domain->rbac->item->getPermission($name);
 	}
 	
 	/**
@@ -387,6 +387,6 @@ class PhpManager extends Component implements ManagerInterface
 	 * @return Permission[] all permissions in the system. The array is indexed by the permission names.
 	 */
 	public function getPermissions() {
-		return Yii::$domain->rbac->item->getPermissions();
+		return \App::$domain->rbac->item->getPermissions();
 	}
 }

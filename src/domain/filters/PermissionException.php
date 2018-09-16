@@ -43,9 +43,9 @@ class PermissionException extends BaseScenario {
 	}
 	
 	private function createPermission($permissionName) {
-		$item = Yii::$domain->rbac->item->createPermission($permissionName);
+		$item = \App::$domain->rbac->item->createPermission($permissionName);
 		$item->description = '### Это полномочие сгенерированно автоматически, по причине его отсутсвия!';
-		Yii::$domain->rbac->item->addItem($item);
+		\App::$domain->rbac->item->addItem($item);
 	}
 	
 	private function normalizePermissionName($constName) {

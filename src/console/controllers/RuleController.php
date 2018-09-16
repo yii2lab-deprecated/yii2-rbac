@@ -16,8 +16,8 @@ class RuleController extends Controller
 	public function actionAdd()
 	{
 		Question::confirm(null, 1);
-		$collection = Yii::$domain->rbac->rule->searchInAllApps();
-		$rules = Yii::$domain->rbac->rule->insertBatch($collection);
+		$collection = \App::$domain->rbac->rule->searchInAllApps();
+		$rules = \App::$domain->rbac->rule->insertBatch($collection);
 		if($rules) {
 			Output::items($rules, "Added " . count($rules) . " rules");
 		} else {
