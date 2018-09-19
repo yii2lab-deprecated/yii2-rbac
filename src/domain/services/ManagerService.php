@@ -18,21 +18,14 @@ use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
  */
 class ManagerService extends BaseService implements ManagerInterface {
 	
-	public function can($rule, $param = null, $allowCaching = true) {
-		if($this->repository->isGuestOnlyAllowed($rule)) {
-			throw new ForbiddenHttpException();
+	public function can($rules, $param = null, $allowCaching = true) {
+		if(empty($rules)) {
+			return;
 		}
-		if($this->repository->isAuthOnlyAllowed($rule)) {
-			\App::$domain->account->auth->breakSession();
-		}
-		if(!Yii::$app->user->can($rule, $param, $allowCaching)) {
-			if(Yii::$app->user->isGuest) {
-				\App::$domain->account->auth->breakSession();
-			}
-			throw new ForbiddenHttpException();
+		foreach($rules as $rule) {
+			$this->canItem($rule, $param = null, $allowCaching);
 		}
 	}
-	
 	
 	public function checkAccess($userId, $permissionName, $params = [])
 	{
@@ -55,6 +48,21 @@ class ManagerService extends BaseService implements ManagerInterface {
 	protected function hasNoAssignments(array $assignments)
 	{
 		return empty($assignments) && empty($this->domain->item->defaultRoles);
+	}
+	
+	private function canItem($rule, $param = null, $allowCaching = true) {
+		if($this->repository->isGuestOnlyAllowed($rule)) {
+			throw new ForbiddenHttpException();
+		}
+		if($this->repository->isAuthOnlyAllowed($rule)) {
+			\App::$domain->account->auth->breakSession();
+		}
+		if(!Yii::$app->user->can($rule, $param, $allowCaching)) {
+			if(Yii::$app->user->isGuest) {
+				\App::$domain->account->auth->breakSession();
+			}
+			throw new ForbiddenHttpException();
+		}
 	}
 	
 }
