@@ -8,6 +8,13 @@ use yii\rbac\Item;
 use yii\rbac\Permission;
 use yii\rbac\Role;
 
+/**
+ * Interface ItemInterface
+ *
+ * @package yii2lab\rbac\domain\interfaces\services
+ *
+ * @property array $defaultRoles
+ */
 interface ItemInterface {
 	
 	/**

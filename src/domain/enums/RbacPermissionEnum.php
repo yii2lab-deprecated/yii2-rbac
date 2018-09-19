@@ -9,5 +9,11 @@ class RbacPermissionEnum extends BaseEnum
 
     // Управление RBAC
     const MANAGE = 'oRbacManage';
+	
+	// Авторизованный
+	const AUTHORIZED = '@';
+	
+	// Гость
+	const GUEST = '?';
 
 }
