@@ -25,7 +25,7 @@ class ManagerService extends BaseService implements ManagerInterface {
 		}
 		$rules = ArrayHelper::toArray($rules);
 		foreach($rules as $rule) {
-			$this->canItem($rule, $param = null, $allowCaching);
+			$this->canItem($rule, $param, $allowCaching);
 		}
 	}
 	
