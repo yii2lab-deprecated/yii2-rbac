@@ -6,6 +6,7 @@ use Yii;
 use yii\rbac\Assignment;
 use yii\web\ForbiddenHttpException;
 use yii2lab\domain\services\base\BaseService;
+use yii2lab\extension\yii\helpers\ArrayHelper;
 use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
 
 /**
@@ -22,6 +23,7 @@ class ManagerService extends BaseService implements ManagerInterface {
 		if(empty($rules)) {
 			return;
 		}
+		$rules = ArrayHelper::toArray($rules);
 		foreach($rules as $rule) {
 			$this->canItem($rule, $param = null, $allowCaching);
 		}
