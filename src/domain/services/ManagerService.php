@@ -5,6 +5,7 @@ namespace yii2lab\rbac\domain\services;
 use Yii;
 use yii\rbac\Assignment;
 use yii\web\ForbiddenHttpException;
+use yii\web\UnauthorizedHttpException;
 use yii2lab\domain\services\base\BaseService;
 use yii2lab\extension\yii\helpers\ArrayHelper;
 use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
@@ -19,14 +20,36 @@ use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
  */
 class ManagerService extends BaseService implements ManagerInterface {
 	
-	public function can($rules, $param = null, $allowCaching = true) {
-		if(empty($rules)) {
+	public function can($permissions, $param = null, $allowCaching = true) {
+		if(empty($permissions)) {
 			return;
 		}
-		$rules = ArrayHelper::toArray($rules);
-		foreach($rules as $rule) {
+		$permissions = ArrayHelper::toArray($permissions);
+		foreach($permissions as $rule) {
 			$this->canItem($rule, $param, $allowCaching);
 		}
+	}
+	
+	public function isAllow($permissions, $params = [], $userId = null) {
+		if(empty($permissions)) {
+			return false;
+		}
+		if(empty($userId)) {
+			try {
+				$identity = \App::$domain->account->auth->identity;
+				if(is_object($identity)) {
+					$userId = $identity->id;
+				}
+			} catch(ForbiddenHttpException $e) {}
+		}
+		$permissions = ArrayHelper::toArray($permissions);
+		foreach($permissions as $permission) {
+			$isAllow = $this->isAllowItem($permission, $params, $userId);
+			if($isAllow) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public function checkAccess($userId, $permissionName, $params = [])
@@ -65,6 +88,17 @@ class ManagerService extends BaseService implements ManagerInterface {
 			}
 			throw new ForbiddenHttpException();
 		}
+	}
+	
+	private function isAllowItem($permission, $params = [], $userId = null) {
+		try {
+			$isAllow = $this->checkAccess($userId, $permission, $params);
+		} catch(ForbiddenHttpException $e) {
+			$isAllow = false;
+		} catch(UnauthorizedHttpException $e) {
+			$isAllow = false;
+		}
+		return $isAllow;
 	}
 	
 }
