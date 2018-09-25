@@ -8,6 +8,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\UnauthorizedHttpException;
 use yii2lab\domain\services\base\BaseService;
 use yii2lab\extension\yii\helpers\ArrayHelper;
+use yii2lab\rbac\domain\enums\RbacPermissionEnum;
 use yii2lab\rbac\domain\interfaces\services\ManagerInterface;
 
 /**
@@ -36,10 +37,12 @@ class ManagerService extends BaseService implements ManagerInterface {
 		}
 		if(empty($userId)) {
 			try {
-				$identity = \App::$domain->account->auth->identity;
-				if(is_object($identity)) {
-					$userId = $identity->id;
-				}
+                if(!\Yii::$app->user->isGuest) {
+                    $identity = \App::$domain->account->auth->identity;
+                    if(is_object($identity)) {
+                        $userId = $identity->id;
+                    }
+                }
 			} catch(ForbiddenHttpException $e) {}
 		}
 		$permissions = ArrayHelper::toArray($permissions);
@@ -91,6 +94,10 @@ class ManagerService extends BaseService implements ManagerInterface {
 	}
 	
 	private function isAllowItem($permission, $params = [], $userId = null) {
+	    if(empty($userId)) {
+	        return RbacPermissionEnum::GUEST == $permission;
+        }
+
 		try {
 			$isAllow = $this->checkAccess($userId, $permission, $params);
 		} catch(ForbiddenHttpException $e) {
