@@ -24,5 +24,6 @@ class RuleController extends Controller
 			Output::block("All rules exists!");
 		}
 	}
+
 	
 }
