@@ -3,12 +3,11 @@
 namespace tests\functional\v1\services;
 
 use yii2lab\test\Test\Unit;
-use Yii;
 use tests\functional\v1\enums\LoginEnum;
 use yii\web\ForbiddenHttpException;
 use yii2module\account\domain\v2\helpers\TestAuthHelper;
 
-class RbacTest extends Unit
+class ManagerTest extends Unit
 {
 	
 	public function testCanByUser()

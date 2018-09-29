@@ -281,13 +281,6 @@ class ItemTest extends Unit {
 		$this->assertCollection(__METHOD__, $actual);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	public function testGetRoleConst() {
 		$actual = RoleEnum::all();
 		$expect = DataHelper::loadForTest(self::PACKAGE, __METHOD__, $actual);
@@ -299,15 +292,6 @@ class ItemTest extends Unit {
 		$expect = DataHelper::loadForTest(self::PACKAGE, __METHOD__, $actual);
 		$this->tester->assertEquals($expect, $actual, true);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public function testRemoveAllPermissions() {
 		$itemService = $this->forgeDomain()->item;
