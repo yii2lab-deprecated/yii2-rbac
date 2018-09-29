@@ -16,6 +16,7 @@ use yii2lab\rbac\domain\repositories\disc\RuleRepository;
  * @property-read \yii2lab\rbac\domain\interfaces\services\RuleInterface $rule
  * @property-read \yii2lab\rbac\domain\interfaces\repositories\RepositoriesInterface $repositories
  * @property-read \yii2lab\rbac\domain\interfaces\services\RoleInterface $role
+ * @property-read \yii2lab\rbac\domain\interfaces\services\ConstInterface $const
  */
 class Domain extends \yii2lab\domain\Domain {
 	
