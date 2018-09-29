@@ -5,17 +5,16 @@ namespace yii2lab\rbac\domain\repositories\disc;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\rbac\Assignment;
+use yii2lab\domain\repositories\BaseRepository;
+use yii2lab\rbac\domain\helpers\DiscHelper;
 use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
-use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
 
-class AssignmentRepository extends BaseItemRepository implements AssignmentInterface {
+class AssignmentRepository extends BaseRepository implements AssignmentInterface {
 	
 	/**
 	 * @var string the path of the PHP script that contains the authorization assignments.
 	 * This can be either a file path or a [path alias](guide:concept-aliases) to the file.
 	 * Make sure this file is writable by the Web server process if the authorization needs to be changed online.
-	 * @see loadFromFile()
-	 * @see saveToFile()
 	 */
 	public $assignmentFile = '@app/rbac/assignments.php';
 	
@@ -24,15 +23,10 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 	 */
 	protected $assignments = []; // userId, itemName => assignment
 	
-	/**
-	 * Initializes the application component.
-	 * This method overrides parent implementation by loading the authorization data
-	 * from PHP script.
-	 */
 	public function init()
 	{
 		parent::init();
-		$this->assignmentFile = Yii::getAlias($this->assignmentFile);
+		//$this->assignmentFile = Yii::getAlias($this->assignmentFile);
 		$this->load();
 	}
 	
@@ -44,14 +38,6 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 		return isset($this->assignments[$userId]) ? $this->assignments[$userId] : [];
 	}
 	
-	/**
-	 * Returns all user IDs assigned to the role specified.
-	 *
-	 * @param string $roleName
-	 *
-	 * @return array array of user ID strings
-	 * @since 2.0.7
-	 */
 	public function getUserIdsByRole($roleName) {
 		// TODO: Implement getUserIdsByRole() method.
 	}
@@ -211,7 +197,7 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 				$assignmentData[$userId][] = $assignment->roleName;
 			}
 		}
-		$this->saveToFile($assignmentData, $this->assignmentFile);
+		DiscHelper::saveToFile($assignmentData, $this->assignmentFile);
 	}
 	
 	
@@ -228,7 +214,7 @@ class AssignmentRepository extends BaseItemRepository implements AssignmentInter
 	protected function load()
 	{
 		$this->assignments = [];
-		$assignments = $this->loadFromFile($this->assignmentFile);
+		$assignments = DiscHelper::loadFromFile($this->assignmentFile);
 		$assignmentsMtime = @filemtime($this->assignmentFile);
 		
 		foreach ($assignments as $userId => $roles) {

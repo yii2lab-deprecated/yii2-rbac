@@ -14,7 +14,7 @@ use yii2lab\rbac\domain\repositories\traits\ItemTrait;
 /**
  * @property \yii2lab\rbac\domain\Domain $domain
  */
-abstract class BaseItemRepository extends BaseRepository {
+abstract class BaseRuleRepository extends BaseRepository {
 	
 	use ItemTrait;
 	

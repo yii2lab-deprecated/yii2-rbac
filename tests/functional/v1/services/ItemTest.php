@@ -336,6 +336,10 @@ class ItemTest extends Unit {
 				'item' => [
 					'itemFile' => self::DATA_ALIAS . SL . 'items.php',
 				],
+				'const' => [
+					'driver' => 'Driver::FILE',
+					'dirAlias' => self::DATA_ALIAS,
+				],
 			],
 		];
 		

@@ -2,8 +2,8 @@
 
 namespace yii2lab\rbac\domain\services;
 
-use Yii;
 use yii2lab\domain\services\base\BaseService;
+use yii2lab\rbac\domain\interfaces\services\ConstInterface;
 
 /**
  * Class ConstService
@@ -11,8 +11,9 @@ use yii2lab\domain\services\base\BaseService;
  * @package yii2lab\rbac\domain\services
  *
  * @property \yii2lab\rbac\domain\repositories\file\ConstRepository $repository
+ * @property \yii2lab\rbac\domain\Domain $domain
  */
-class ConstService extends BaseService {
+class ConstService extends BaseService implements ConstInterface {
 
 	public function generateAll() {
 		$result = [];
@@ -23,17 +24,17 @@ class ConstService extends BaseService {
 	}
 
 	public function generatePermissions() {
-		$permissionCollection = Yii::$app->authManager->getPermissions();
+		$permissionCollection = $this->domain->item->getPermissions();
 		return $this->repository->generatePermissions($permissionCollection);
 	}
 
 	public function generateRoles() {
-		$roleCollection = Yii::$app->authManager->getRoles();
+		$roleCollection = $this->domain->item->getRoles();
 		return $this->repository->generateRoles($roleCollection);
 	}
 
 	public function generateRules() {
-		$ruleCollection = Yii::$app->authManager->getRules();
+		$ruleCollection = $this->domain->rule->getRules();
 		return $this->repository->generateRules($ruleCollection);
 	}
 

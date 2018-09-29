@@ -2,10 +2,10 @@
 
 namespace yii2lab\rbac\domain\repositories\disc;
 
-use Yii;
 use yii\rbac\Rule;
+use yii2lab\domain\repositories\BaseRepository;
+use yii2lab\rbac\domain\helpers\DiscHelper;
 use yii2lab\rbac\domain\interfaces\repositories\RuleInterface;
-use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
 
 /**
  * Class RuleRepository
@@ -14,14 +14,12 @@ use yii2lab\rbac\domain\repositories\base\BaseItemRepository;
  *
  * @property \yii2lab\rbac\domain\Domain $domain
  */
-class RuleRepository extends BaseItemRepository implements RuleInterface {
+class RuleRepository extends BaseRepository implements RuleInterface {
 	
 	/**
 	 * @var string the path of the PHP script that contains the authorization rules.
 	 * This can be either a file path or a [path alias](guide:concept-aliases) to the file.
 	 * Make sure this file is writable by the Web server process if the authorization needs to be changed online.
-	 * @see loadFromFile()
-	 * @see saveToFile()
 	 */
 	public $ruleFile = '@app/rbac/rules.php';
 	
@@ -33,7 +31,7 @@ class RuleRepository extends BaseItemRepository implements RuleInterface {
 	public function init()
 	{
 		parent::init();
-		$this->ruleFile = Yii::getAlias($this->ruleFile);
+		//$this->ruleFile = Yii::getAlias($this->ruleFile);
 		$this->load();
 	}
 	
@@ -117,7 +115,7 @@ class RuleRepository extends BaseItemRepository implements RuleInterface {
 	protected function load()
 	{
 		$this->rules = [];
-		$rules = $this->loadFromFile($this->ruleFile);
+		$rules = DiscHelper::loadFromFile($this->ruleFile);
 		foreach ($rules as $name => $ruleData) {
 			$this->rules[$name] = unserialize($ruleData);
 		}
@@ -142,7 +140,7 @@ class RuleRepository extends BaseItemRepository implements RuleInterface {
 		foreach ($this->rules as $name => $rule) {
 			$rules[$name] = serialize($rule);
 		}
-		$this->saveToFile($rules, $this->ruleFile);
+		DiscHelper::saveToFile($rules, $this->ruleFile);
 	}
 	
 }
