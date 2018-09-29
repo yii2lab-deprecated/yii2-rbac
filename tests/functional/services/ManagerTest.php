@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\functional\v1\services;
+namespace tests\functional\services;
 
 use yii2lab\test\Test\Unit;
-use tests\functional\v1\enums\LoginEnum;
+use tests\functional\enums\LoginEnum;
 use yii\web\ForbiddenHttpException;
 use yii2module\account\domain\v2\helpers\TestAuthHelper;
 

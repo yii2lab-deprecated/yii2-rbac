@@ -217,7 +217,9 @@ interface ItemInterface {
 	 */
 	public function checkAccessRecursive($user, $itemName, $params, $assignments);
 	
-	
+	/**
+	 * @param $rule
+	 */
 	public function removeRuleFromItems($rule);
 	
 }

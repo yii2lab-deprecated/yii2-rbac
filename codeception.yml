@@ -15,5 +15,5 @@ coverage:
     enabled: true
     whitelist:
         include:
-            - src/domain/v2/services/*
-            - src/domain/v2/helpers/*
+            - src/domain/services/*
+            - src/domain/helpers/*

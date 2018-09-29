@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\functional\v1\services;
+namespace tests\functional\services;
 
 use common\runtime\test\rbac\PermissionEnum;
 use common\runtime\test\rbac\RoleEnum;

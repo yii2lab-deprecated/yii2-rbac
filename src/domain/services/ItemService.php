@@ -8,7 +8,6 @@ use yii\rbac\Assignment;
 use yii\rbac\Item;
 use yii\rbac\Permission;
 use yii\rbac\Role;
-use yii\rbac\Rule;
 use yii2lab\domain\services\base\BaseService;
 use yii2lab\rbac\domain\interfaces\services\ItemInterface;
 use yii2lab\rbac\domain\repositories\disc\ItemRepository;
@@ -239,7 +238,7 @@ class ItemService extends BaseService implements ItemInterface {
 		return $this->repository->hasChild($parent, $child);
 	}
 	
-	/**
+	/*
 	 * Removes all authorization data, including roles, permissions, rules, and assignments.
 	 */
 	/*public function removeAll() {

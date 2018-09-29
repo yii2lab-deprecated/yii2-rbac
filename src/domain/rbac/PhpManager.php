@@ -2,7 +2,6 @@
 
 namespace yii2lab\rbac\domain\rbac;
 
-use Yii;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\rbac\Item;

@@ -1,0 +1,8 @@
+{
+	"PROFILE_MANAGE": "oProfileManage",
+	"GEO_CITY_MANAGE": "oGeoCityManage",
+	"GEO_COUNTRY_MANAGE": "oGeoCountryManage",
+	"GEO_CURRENCY_MANAGE": "oGeoCurrencyManage",
+	"BACKEND_ALL": "oBackendAll",
+	"ROOT": "oRoot"
+}

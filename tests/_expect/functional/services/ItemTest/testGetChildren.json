@@ -1,0 +1,38 @@
+{
+	"rUser": {
+		"type": 1,
+		"name": "rUser",
+		"description": null,
+		"ruleName": null,
+		"data": null,
+		"createdAt": 1538227504,
+		"updatedAt": 1538227504
+	},
+	"oGeoCityManage": {
+		"type": 2,
+		"name": "oGeoCityManage",
+		"description": null,
+		"ruleName": null,
+		"data": null,
+		"createdAt": 1538227504,
+		"updatedAt": 1538227504
+	},
+	"oGeoCountryManage": {
+		"type": 2,
+		"name": "oGeoCountryManage",
+		"description": null,
+		"ruleName": null,
+		"data": null,
+		"createdAt": 1538227504,
+		"updatedAt": 1538227504
+	},
+	"oGeoCurrencyManage": {
+		"type": 2,
+		"name": "oGeoCurrencyManage",
+		"description": null,
+		"ruleName": null,
+		"data": null,
+		"createdAt": 1538227504,
+		"updatedAt": 1538227504
+	}
+}
