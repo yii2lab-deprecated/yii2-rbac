@@ -2,9 +2,12 @@
 
 namespace tests\functional\v1\services;
 
+use common\runtime\test\rbac\PermissionEnum;
+use common\runtime\test\rbac\RoleEnum;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Item;
+use yii2lab\domain\enums\Driver;
 use yii2lab\domain\helpers\DomainHelper;
 use yii2lab\extension\yii\helpers\FileHelper;
 use yii2lab\test\helpers\DataHelper;
@@ -278,6 +281,34 @@ class ItemTest extends Unit {
 		$this->assertCollection(__METHOD__, $actual);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	public function testGetRoleConst() {
+		$actual = RoleEnum::all();
+		$expect = DataHelper::loadForTest(self::PACKAGE, __METHOD__, $actual);
+		$this->tester->assertEquals($expect, $actual, true);
+	}
+	
+	public function testGetPermissionConst() {
+		$actual = PermissionEnum::all();
+		$expect = DataHelper::loadForTest(self::PACKAGE, __METHOD__, $actual);
+		$this->tester->assertEquals($expect, $actual, true);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public function testRemoveAllPermissions() {
 		$itemService = $this->forgeDomain()->item;
 		$itemService->removeAllPermissions();
@@ -337,7 +368,7 @@ class ItemTest extends Unit {
 					'itemFile' => self::DATA_ALIAS . SL . 'items.php',
 				],
 				'const' => [
-					'driver' => 'Driver::FILE',
+					'driver' => Driver::FILE,
 					'dirAlias' => self::DATA_ALIAS,
 				],
 			],

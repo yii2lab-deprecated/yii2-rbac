@@ -57,7 +57,7 @@ class ManagerService extends BaseService implements ManagerInterface {
 	
 	public function checkAccess($userId, $permissionName, $params = [])
 	{
-		$assignments = \App::$domain->rbac->assignment->getAssignments($userId);
+		$assignments = $this->domain->assignment->getAssignments($userId);
 		
 		if ($this->hasNoAssignments($assignments)) {
 			return false;

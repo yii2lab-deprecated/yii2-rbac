@@ -192,7 +192,7 @@ abstract class BaseRuleRepository extends BaseRepository {
 	public function getRolesByUser($userId)
 	{
 		$roles = $this->getDefaultRoleInstances();
-		foreach (\App::$domain->rbac->assignment->getAssignments($userId) as $name => $assignment) {
+		foreach ($this->domain->assignment->getAssignments($userId) as $name => $assignment) {
 			$role = $this->items[$assignment->roleName];
 			if ($role->type === Item::TYPE_ROLE) {
 				$roles[$name] = $role;
@@ -395,7 +395,7 @@ abstract class BaseRuleRepository extends BaseRepository {
 	 */
 	protected function getDirectPermissionsByUser($userId)
 	{
-		$assignments = \App::$domain->rbac->assignment->getAssignments($userId);
+		$assignments = $this->domain->assignment->getAssignments($userId);
 		return ItemHelper::allPermissionsByAssignments($this->items, $assignments);
 	}
 	
@@ -407,7 +407,7 @@ abstract class BaseRuleRepository extends BaseRepository {
 	 */
 	protected function getInheritedPermissionsByUser($userId)
 	{
-		$assignments = \App::$domain->rbac->assignment->getAssignments($userId);
+		$assignments = $this->domain->assignment->getAssignments($userId);
 		$result = [];
 		foreach (array_keys($assignments) as $roleName) {
 			$this->getChildrenRecursive($roleName, $result);
@@ -438,12 +438,12 @@ abstract class BaseRuleRepository extends BaseRepository {
 	}
 	
 	private function removeItemRevoke($role) {
-		$ids = \App::$domain->rbac->assignment->getUserIdsByRole($role);
+		$ids = $this->domain->assignment->getUserIdsByRole($role);
 		if(empty($ids)) {
 			return;
 		}
 		foreach ($ids as $id) {
-			\App::$domain->rbac->assignment->revoke($role, $id);
+			$this->domain->assignment->revoke($role, $id);
 		}
 	}
 	
@@ -462,7 +462,7 @@ abstract class BaseRuleRepository extends BaseRepository {
 			$this->domain->assignment->revokeAllByItemName($n);
 		}
 		
-		/*foreach (\App::$domain->rbac->assignment->all() as $i => $assignments) {
+		/*foreach ($this->domain->assignment->all() as $i => $assignments) {
 			foreach ($assignments as $n => $assignment) {
 				if (isset($names[$assignment->roleName])) {
 					unset($this->assignments[$i][$n]);

@@ -19,8 +19,8 @@ class ConstService extends BaseService implements ConstInterface {
 		$result = [];
 		$result['Permissions'] = $this->generatePermissions();
 		$result['Roles'] = $this->generateRoles();
-		$result['Rules'] = $this->generateRules();
-		return count($result['Permissions']) + count($result['Roles']) + count($result['Rules']);
+		//$result['Rules'] = $this->generateRules();
+		return count($result['Permissions']) + count($result['Roles'])/* + count($result['Rules'])*/;
 	}
 
 	public function generatePermissions() {

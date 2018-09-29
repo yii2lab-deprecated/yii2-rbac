@@ -141,6 +141,8 @@ class RuleRepository extends BaseRepository implements RuleInterface {
 			$rules[$name] = serialize($rule);
 		}
 		DiscHelper::saveToFile($rules, $this->ruleFile);
+		
+		$this->domain->const->generateAll();
 	}
 	
 }

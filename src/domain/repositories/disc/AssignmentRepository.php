@@ -2,13 +2,19 @@
 
 namespace yii2lab\rbac\domain\repositories\disc;
 
-use Yii;
 use yii\base\InvalidArgumentException;
 use yii\rbac\Assignment;
 use yii2lab\domain\repositories\BaseRepository;
 use yii2lab\rbac\domain\helpers\DiscHelper;
 use yii2lab\rbac\domain\interfaces\repositories\AssignmentInterface;
 
+/**
+ * Class AssignmentRepository
+ *
+ * @package yii2lab\rbac\domain\repositories\disc
+ *
+ * @property \yii2lab\rbac\domain\Domain $domain
+ */
 class AssignmentRepository extends BaseRepository implements AssignmentInterface {
 	
 	/**
@@ -198,6 +204,8 @@ class AssignmentRepository extends BaseRepository implements AssignmentInterface
 			}
 		}
 		DiscHelper::saveToFile($assignmentData, $this->assignmentFile);
+		
+		$this->domain->const->generateAll();
 	}
 	
 	

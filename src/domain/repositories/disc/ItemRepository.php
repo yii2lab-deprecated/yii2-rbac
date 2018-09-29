@@ -30,7 +30,9 @@ class ItemRepository extends BaseItemRepository implements ItemInterface {
 		$items = ItemHelper::lists2tree($this->items, $this->children);
 		DiscHelper::saveToFile($items, $this->itemFile);
 		
-		//\App::$domain->rbac->const->generateAll();
+		$this->domain->const->generateAll();
+		
+		//$this->domain->const->generateAll();
 	}
 	
 }

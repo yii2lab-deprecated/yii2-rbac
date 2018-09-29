@@ -25,7 +25,7 @@ class RuleService extends BaseService implements RuleInterface {
 	public function updateRule($name, $rule)
 	{
 		$result = $this->repository->updateRule($name, $rule);
-		\App::$domain->rbac->const->generateRules();
+		$this->domain->const->generateRules();
 		return $result;
 	}
 	
@@ -52,13 +52,13 @@ class RuleService extends BaseService implements RuleInterface {
 	public function removeAllRules()
 	{
 		$result = $this->repository->removeAllRules();
-		\App::$domain->rbac->const->generateRules();
+		$this->domain->const->generateRules();
 		return $result;
 	}
 	
 	public function addRule($rule) {
 		$result = $this->repository->addRule($rule);
-		\App::$domain->rbac->const->generateRules();
+		$this->domain->const->generateRules();
 		return $result;
 	}
 	
@@ -67,7 +67,7 @@ class RuleService extends BaseService implements RuleInterface {
 		if($result) {
 			$this->domain->item->removeRuleFromItems($rule);
 		}
-		\App::$domain->rbac->const->generateRules();
+		$this->domain->const->generateRules();
 		return $result;
 	}
 	

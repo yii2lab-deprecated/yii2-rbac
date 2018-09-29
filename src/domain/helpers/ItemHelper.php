@@ -22,7 +22,7 @@ class ItemHelper {
 		return $itemsResult;
 	}
 	
-	public static function getItemsNameByType($items, $type) {
+	public static function getItemsNameByType(&$items, $type) {
 		$names = [];
 		foreach ($items as $name => $item) {
 			if ($item->type == $type) {
