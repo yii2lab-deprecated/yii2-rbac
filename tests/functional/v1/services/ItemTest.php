@@ -14,6 +14,7 @@ class ItemTest extends Unit {
 	
 	const PACKAGE = 'yii2lab/yii2-rbac';
 	const DATA_ALIAS = '@common/runtime/test/rbac';
+	const ADMIN_ID = 381949;
 	
 	public function testInit() {
 		$itemService = $this->forgeDomain()->item;
@@ -120,7 +121,7 @@ class ItemTest extends Unit {
 	public function testGetRolesByUser() {
 		$itemService = $this->forgeDomain()->item;
 		
-		$actual = $itemService->getRolesByUser(381949);
+		$actual = $itemService->getRolesByUser(self::ADMIN_ID);
 		$this->assertCollection(__METHOD__, $actual);
 	}
 	
@@ -155,7 +156,7 @@ class ItemTest extends Unit {
 	public function testGetPermissionsByUser() {
 		$itemService = $this->forgeDomain()->item;
 		
-		$actual = $itemService->getPermissionsByUser(381949);
+		$actual = $itemService->getPermissionsByUser(self::ADMIN_ID);
 		$this->assertCollection(__METHOD__, $actual);
 	}
 	
@@ -247,29 +248,21 @@ class ItemTest extends Unit {
 		$this->assertCollection(__METHOD__, $actual);
 	}
 	
-	/*public function testRemoveAllPermissions() {
-	
-	}
-	
-	public function testRemoveAllRoles() {
-	
-	}*/
-	
 	public function testCheckAccessRecursive() {
 		$itemService = $this->forgeDomain()->item;
 		
-		$assignments = $this->forgeDomain()->assignment->getAssignments(381949);
+		$assignments = $this->forgeDomain()->assignment->getAssignments(self::ADMIN_ID);
 		
-		$isAllow = $itemService->checkAccessRecursive(381949, 'oBackendAll', [], $assignments);
+		$isAllow = $itemService->checkAccessRecursive(self::ADMIN_ID, 'oBackendAll', [], $assignments);
 		$this->tester->assertTrue($isAllow);
 	}
 	
 	public function testCheckAccessRecursiveNegative() {
 		$itemService = $this->forgeDomain()->item;
 		
-		$assignments = $this->forgeDomain()->assignment->getAssignments(381949);
+		$assignments = $this->forgeDomain()->assignment->getAssignments(self::ADMIN_ID);
 		
-		$isAllow = $itemService->checkAccessRecursive(381949, 'oRoot', [], $assignments);
+		$isAllow = $itemService->checkAccessRecursive(self::ADMIN_ID, 'oRoot', [], $assignments);
 		$this->tester->assertFalse($isAllow);
 	}
 	
@@ -300,9 +293,6 @@ class ItemTest extends Unit {
 		$actual = $itemService->getItems(Item::TYPE_ROLE);
 		$this->assertCollection(__METHOD__, $actual);
 	}
-	
-	
-	
 	
 	private function assertCollection($method, $actual) {
 		$actual = $this->prepareData($actual);
