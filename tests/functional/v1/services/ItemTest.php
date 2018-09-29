@@ -51,6 +51,9 @@ class ItemTest extends Unit {
 		$oBackendAll = $itemService->createPermission('oBackendAll');
 		$itemService->addItem($oBackendAll);
 		
+		$oRoot = $itemService->createPermission('oRoot');
+		$itemService->addItem($oRoot);
+		
 		// --- add child ---
 		
 		$itemService->addChild($rUser, $oProfileManage);
@@ -100,6 +103,176 @@ class ItemTest extends Unit {
 		$this->tester->assertTrue($isRemoved);
 	}
 	
+	public function testGetRole() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getRole('rUser');
+		$this->assertEntity(__METHOD__, $actual);
+	}
+	
+	public function testGetRoles() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getRoles();
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testGetRolesByUser() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getRolesByUser(381949);
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testGetChildRoles() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getChildRoles('rModerator');
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testGetPermission() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getPermission('oGeoCityManage');
+		$this->assertEntity(__METHOD__, $actual);
+	}
+	
+	public function testGetPermissions() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getPermissions();
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testGetPermissionsByRole() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getPermissionsByRole('rModerator');
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testGetPermissionsByUser() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getPermissionsByUser(381949);
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testCanAddChild() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		$oGeoCountryManage = $itemService->getPermission('oGeoCountryManage');
+		
+		$actual = $itemService->canAddChild($rUser, $oGeoCountryManage);
+		$this->tester->assertTrue($actual);
+	}
+	
+	/*public function testCanAddChildNegative() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		$oProfileManage = $itemService->getPermission('oProfileManage');
+		
+		$actual = $itemService->canAddChild($rUser, $oProfileManage);
+		$this->tester->assertFalse($actual);
+	}*/
+	
+	public function testAddChild() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		$oGeoCountryManage = $itemService->getPermission('oGeoCountryManage');
+		
+		$actual = $itemService->addChild($rUser, $oGeoCountryManage);
+		$this->tester->assertTrue($actual);
+		
+		$actualPermissions = $itemService->getPermissionsByRole('rUser');
+		$this->assertCollection(__METHOD__, $actualPermissions);
+	}
+	
+	public function testRemoveChild() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		$oGeoCountryManage = $itemService->getPermission('oGeoCountryManage');
+		
+		$actual = $itemService->removeChild($rUser, $oGeoCountryManage);
+		$this->tester->assertTrue($actual);
+		
+		$actualPermissions = $itemService->getPermissionsByRole('rUser');
+		$this->assertCollection(__METHOD__, $actualPermissions);
+	}
+	
+	public function testRemoveChildren() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		
+		$actual = $itemService->removeChildren($rUser);
+		$this->tester->assertTrue($actual);
+		
+		$actualPermissions = $itemService->getPermissionsByRole('rUser');
+		$this->assertCollection(__METHOD__, $actualPermissions);
+		
+		$oProfileManage = $itemService->getPermission('oProfileManage');
+		$itemService->addChild($rUser, $oProfileManage);
+	}
+	
+	public function testHasChild() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		$oProfileManage = $itemService->getPermission('oProfileManage');
+		
+		$actual = $itemService->hasChild($rUser, $oProfileManage);
+		$this->tester->assertTrue($actual);
+	}
+	
+	public function testHasChildNegative() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$rUser = $itemService->getRole('rUser');
+		$oGeoCityManage = $itemService->getPermission('oGeoCityManage');
+		
+		$actual = $itemService->hasChild($rUser, $oGeoCityManage);
+		$this->tester->assertFalse($actual);
+	}
+	
+	public function testGetChildren() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$actual = $itemService->getChildren('rModerator');
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	/*public function testRemoveAllPermissions() {
+	
+	}
+	
+	public function testRemoveAllRoles() {
+	
+	}*/
+	
+	public function testCheckAccessRecursive() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$assignments = $this->forgeDomain()->assignment->getAssignments(381949);
+		
+		$isAllow = $itemService->checkAccessRecursive(381949, 'oBackendAll', [], $assignments);
+		$this->tester->assertTrue($isAllow);
+	}
+	
+	public function testCheckAccessRecursiveNegative() {
+		$itemService = $this->forgeDomain()->item;
+		
+		$assignments = $this->forgeDomain()->assignment->getAssignments(381949);
+		
+		$isAllow = $itemService->checkAccessRecursive(381949, 'oRoot', [], $assignments);
+		$this->tester->assertFalse($isAllow);
+	}
+	
 	public function testGetRoleItems() {
 		$itemService = $this->forgeDomain()->item;
 		$actual = $itemService->getItems(Item::TYPE_ROLE);
@@ -111,6 +284,25 @@ class ItemTest extends Unit {
 		$actual = $itemService->getItems(Item::TYPE_PERMISSION);
 		$this->assertCollection(__METHOD__, $actual);
 	}
+	
+	public function testRemoveAllPermissions() {
+		$itemService = $this->forgeDomain()->item;
+		$itemService->removeAllPermissions();
+		
+		$actual = $itemService->getItems(Item::TYPE_PERMISSION);
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	public function testRemoveAllRoles() {
+		$itemService = $this->forgeDomain()->item;
+		$itemService->removeAllRoles();
+		
+		$actual = $itemService->getItems(Item::TYPE_ROLE);
+		$this->assertCollection(__METHOD__, $actual);
+	}
+	
+	
+	
 	
 	private function assertCollection($method, $actual) {
 		$actual = $this->prepareData($actual);

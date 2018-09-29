@@ -1,0 +1,20 @@
+{
+	"rGuest": {
+		"type": 1,
+		"name": "rGuest",
+		"description": null,
+		"ruleName": null,
+		"data": null,
+		"createdAt": 1538227504,
+		"updatedAt": 1538227504
+	},
+	"rAdministrator": {
+		"type": 1,
+		"name": "rAdministrator",
+		"description": null,
+		"ruleName": null,
+		"data": null,
+		"createdAt": 1538227504,
+		"updatedAt": 1538227504
+	}
+}
