@@ -6,9 +6,9 @@ use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\rbac\Item;
 use yii\rbac\ManagerInterface;
-use yii\rbac\Permission;
-use yii\rbac\Role;
 use yii\rbac\Rule;
+use yii2lab\extension\common\exceptions\DeprecatedException;
+use yii2lab\extension\develop\helpers\ReleaseHelper;
 
 class PhpManager extends Component implements ManagerInterface
 {
@@ -104,33 +104,41 @@ class PhpManager extends Component implements ManagerInterface
 	
 	/**
 	 * {@inheritdoc}
+	 * @deprecated
 	 */
 	public function getItems($type)
 	{
+		throw new DeprecatedException(__METHOD__);
 		return \App::$domain->rbac->item->getItems($type);
 	}
 	
 	/**
 	 * @inheritdoc
+	 * @deprecated
 	 */
 	public function removeItem($item)
 	{
+		throw new DeprecatedException(__METHOD__);
 		return \App::$domain->rbac->item->removeItem($item);
 	}
 	
 	/**
 	 * {@inheritdoc}
+	 * @deprecated
 	 */
 	public function getItem($name)
 	{
+		throw new DeprecatedException(__METHOD__);
 		return \App::$domain->rbac->item->getItem($name);
 	}
 	
 	/**
 	 * {@inheritdoc}
+	 * @deprecated
 	 */
 	public function updateRule($name, $rule)
 	{
+		throw new DeprecatedException(__METHOD__);
 		return \App::$domain->rbac->rule->updateRule($name, $rule);
 	}
 	
@@ -243,38 +251,21 @@ class PhpManager extends Component implements ManagerInterface
 	}
 	
 	/**
-	 * Creates a new Role object.
-	 * Note that the newly created role is not added to the RBAC system yet.
-	 * You must fill in the needed data and call [[add()]] to add it to the system.
-	 *
-	 * @param string $name the role name
-	 *
-	 * @return Role the new Role object
+	 * {@inheritdoc}
 	 */
 	public function createRole($name) {
 		return \App::$domain->rbac->item->createRole($name);
 	}
 	
 	/**
-	 * Creates a new Permission object.
-	 * Note that the newly created permission is not added to the RBAC system yet.
-	 * You must fill in the needed data and call [[add()]] to add it to the system.
-	 *
-	 * @param string $name the permission name
-	 *
-	 * @return Permission the new Permission object
+	 * {@inheritdoc}
 	 */
 	public function createPermission($name) {
 		return \App::$domain->rbac->item->createPermission($name);
 	}
 	
 	/**
-	 * Adds a role, permission or rule to the RBAC system.
-	 *
-	 * @param Role|Permission|Rule $object
-	 *
-	 * @return bool whether the role, permission or rule is successfully added to the system
-	 * @throws \Exception if data validation or saving fails (such as the name of the role or permission is not unique)
+	 * {@inheritdoc}
 	 */
 	public function add($object)
 	{
@@ -296,13 +287,8 @@ class PhpManager extends Component implements ManagerInterface
 		return \App::$domain->rbac->item->add($object);
 	}*/
 	
-	
 	/**
-	 * Removes a role, permission or rule from the RBAC system.
-	 *
-	 * @param Role|Permission|Rule $object
-	 *
-	 * @return bool whether the role, permission or rule is successfully removed
+	 * {@inheritdoc}
 	 */
 	public function remove($object)
 	{
@@ -320,13 +306,7 @@ class PhpManager extends Component implements ManagerInterface
 	}*/
 	
 	/**
-	 * Updates the specified role, permission or rule in the system.
-	 *
-	 * @param string               $name the old name of the role, permission or rule
-	 * @param Role|Permission|Rule $object
-	 *
-	 * @return bool whether the update is successful
-	 * @throws \Exception if data validation or saving fails (such as the name of the role or permission is not unique)
+	 * {@inheritdoc}
 	 */
 	public function update($name, $object)
 	{
@@ -350,40 +330,28 @@ class PhpManager extends Component implements ManagerInterface
 	}*/
 	
 	/**
-	 * Returns the named role.
-	 *
-	 * @param string $name the role name.
-	 *
-	 * @return null|Role the role corresponding to the specified name. Null is returned if no such role.
+	 * {@inheritdoc}
 	 */
 	public function getRole($name) {
 		return \App::$domain->rbac->item->getRole($name);
 	}
 	
 	/**
-	 * Returns all roles in the system.
-	 *
-	 * @return Role[] all roles in the system. The array is indexed by the role names.
+	 * {@inheritdoc}
 	 */
 	public function getRoles() {
 		return \App::$domain->rbac->item->getRoles();
 	}
 	
 	/**
-	 * Returns the named permission.
-	 *
-	 * @param string $name the permission name.
-	 *
-	 * @return null|Permission the permission corresponding to the specified name. Null is returned if no such permission.
+	 * {@inheritdoc}
 	 */
 	public function getPermission($name) {
 		return \App::$domain->rbac->item->getPermission($name);
 	}
 	
 	/**
-	 * Returns all permissions in the system.
-	 *
-	 * @return Permission[] all permissions in the system. The array is indexed by the permission names.
+	 * {@inheritdoc}
 	 */
 	public function getPermissions() {
 		return \App::$domain->rbac->item->getPermissions();
