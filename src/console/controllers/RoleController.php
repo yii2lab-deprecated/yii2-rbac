@@ -4,7 +4,7 @@ namespace yii2lab\rbac\console\controllers;
 
 use Yii;
 use yii2lab\extension\console\base\Controller;
-use yii2lab\helpers\Behavior;
+use yii2lab\extension\web\helpers\Behavior;
 use yii2woop\generated\exception\tps\NotAuthenticatedException;
 
 class RoleController extends Controller

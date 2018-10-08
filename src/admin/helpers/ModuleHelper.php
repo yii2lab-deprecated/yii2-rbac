@@ -2,7 +2,7 @@
 
 namespace yii2lab\rbac\admin\helpers;
 
-use yii2lab\helpers\Behavior;
+use yii2lab\extension\web\helpers\Behavior;
 use yii2lab\rbac\domain\enums\RbacPermissionEnum;
 
 class ModuleHelper {
