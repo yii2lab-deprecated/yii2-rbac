@@ -15,7 +15,7 @@ class ManagerTest extends Unit
 		TestAuthHelper::authById(LoginEnum::ID_USER);
 		try {
 			\App::$domain->rbac->manager->can('oBackendAll');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(ForbiddenHttpException $e) {
 			$this->tester->assertTrue(true);
 		}
@@ -28,7 +28,7 @@ class ManagerTest extends Unit
 			\App::$domain->rbac->manager->can('oBackendAll');
 			$this->tester->assertTrue(true);
 		} catch(ForbiddenHttpException $e) {
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		}
 	}
 	
@@ -37,7 +37,7 @@ class ManagerTest extends Unit
 		TestAuthHelper::defineAccountDomain();
 		try {
 			\App::$domain->rbac->manager->can('oBackendAll');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(ForbiddenHttpException $e) {
 			$this->tester->assertTrue(true);
 		}
@@ -48,7 +48,7 @@ class ManagerTest extends Unit
 		TestAuthHelper::defineAccountDomain();
 		try {
 			\App::$domain->rbac->manager->can('@');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(ForbiddenHttpException $e) {
 			$this->tester->assertTrue(true);
 		}
@@ -60,7 +60,7 @@ class ManagerTest extends Unit
 			\App::$domain->rbac->manager->can('?');
 			$this->tester->assertTrue(true);
 		} catch(ForbiddenHttpException $e) {
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		}
 	}
 	
@@ -71,7 +71,7 @@ class ManagerTest extends Unit
 			\App::$domain->rbac->manager->can('?');
 			$this->tester->assertTrue(true);
 		} catch(ForbiddenHttpException $e) {
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		}
 	}*/
 }
