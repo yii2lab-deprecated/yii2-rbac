@@ -17,7 +17,7 @@ class ManagerTest extends Unit
 			\App::$domain->rbac->manager->can('oBackendAll');
 			$this->tester->assertBad();
 		} catch(ForbiddenHttpException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		}
 	}
 	
@@ -26,7 +26,7 @@ class ManagerTest extends Unit
 		TestAuthHelper::authById(LoginEnum::ID_ADMIN);
 		try {
 			\App::$domain->rbac->manager->can('oBackendAll');
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		} catch(ForbiddenHttpException $e) {
 			$this->tester->assertBad();
 		}
@@ -39,7 +39,7 @@ class ManagerTest extends Unit
 			\App::$domain->rbac->manager->can('oBackendAll');
 			$this->tester->assertBad();
 		} catch(ForbiddenHttpException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		}
 	}
 	
@@ -50,7 +50,7 @@ class ManagerTest extends Unit
 			\App::$domain->rbac->manager->can('@');
 			$this->tester->assertBad();
 		} catch(ForbiddenHttpException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		}
 	}
 	
@@ -58,7 +58,7 @@ class ManagerTest extends Unit
 	{
 		try {
 			\App::$domain->rbac->manager->can('?');
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		} catch(ForbiddenHttpException $e) {
 			$this->tester->assertBad();
 		}
@@ -69,7 +69,7 @@ class ManagerTest extends Unit
 		TestAuthHelper::authById(LoginEnum::ID_USER);
 		try {
 			\App::$domain->rbac->manager->can('?');
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		} catch(ForbiddenHttpException $e) {
 			$this->tester->assertBad();
 		}
