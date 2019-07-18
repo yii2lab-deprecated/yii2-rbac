@@ -1,4 +1,4 @@
-namespace: "yii2lab\rbac";
+namespace: "yii2lab\\rbac";
 paths:
     tests: tests
     log: tests/_output
