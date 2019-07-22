@@ -3,16 +3,17 @@
 namespace tests\functional\services;
 
 use yii2lab\test\Test\Unit;
-use tests\functional\enums\LoginEnum;
 use yii\web\ForbiddenHttpException;
 use yii2module\account\domain\v2\helpers\TestAuthHelper;
 
 class ManagerTest extends Unit
 {
-	
+	const ID_ADMIN = 381949;
+	const ID_USER = 381070;
+
 	public function testCanByUser()
 	{
-		TestAuthHelper::authById(LoginEnum::ID_USER);
+		TestAuthHelper::authById(self::ID_USER);
 		try {
 			\App::$domain->rbac->manager->can('oBackendAll');
 			$this->tester->assertBad();
@@ -23,7 +24,7 @@ class ManagerTest extends Unit
 	
 	public function testCanByAdmin()
 	{
-		TestAuthHelper::authById(LoginEnum::ID_ADMIN);
+		TestAuthHelper::authById(self::ID_ADMIN);
 		try {
 			\App::$domain->rbac->manager->can('oBackendAll');
 			$this->tester->assertNice();
